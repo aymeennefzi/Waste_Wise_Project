@@ -115,6 +115,7 @@
 							<span></span>
 						</span>
 					</button>
+
 					<!-- Profile START -->
 					<div class="dropdown ms-1 ms-lg-0">
 						<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false"><img class="avatar-img rounded-circle" src="{{ asset(Auth::user()->profile_photo_path) }}"alt="avatar"></a>
@@ -251,8 +252,10 @@
 									<!-- Dashboard menu -->
 									<div class="list-group list-group-dark list-group-borderless">
 										<a class="list-group-item"><i class="fas fa-address-card fa-fw me-2"></i>Event<a>
-										<a class="list-group-item"><i class="fas fa-plus fa-fw"></i>Community</a>
-										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>
+										<a class="list-group-item"> <i class="fas fa-plus fa-fw"></i>Community</a>
+										<a class="list-group-item" href="/user-dashboard/memberships">
+											<i class="fas fa-plus fa-fw"></i> Membership
+										</a>										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>
 										<a class="list-group-item"><i class="fas fa-plus fa-fw"></i>Waste tips</a>
 										<a class="list-group-item"><i class="fas fa-stream"></i>Donnation</a>
 										<a class="list-group-item text-danger bg-danger-soft-hover"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
@@ -264,7 +267,12 @@
 					</div>
 					<!-- Left sidebar END -->
 					<!-- Main content START -->
-					<div class="col-xl-9"></div>
+					<div class="col-xl-9">
+
+          @yield('content')
+
+
+					</div>
 					<!-- Main content END -->
 				</div>
 				<!-- Row END -->
