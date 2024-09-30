@@ -5,7 +5,7 @@
     <div class="container">
         <h1>Modifier la communauté : {{ $community->name }}</h1>
         
-        <form action="{{ route('communities.update', $community->id) }}" method="POST">
+        <form action="{{ route('communities.update', $community->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT') <!-- Utilise la méthode PUT pour la mise à jour -->
 

@@ -104,6 +104,8 @@ class CommunityController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $community = Community::findOrFail($id);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -113,19 +115,18 @@ class CommunityController extends Controller
         // Mise à jour des informations de la communauté
         $community->name = $validated['name'];
         $community->description = $validated['description'];
+
     
         // Gestion de l'image si une nouvelle est uploadée
         if ($request->hasFile('image_url')) {
-            // Générer un nom de fichier unique
             $fileName = time() . '_' . $request->file('image_url')->getClientOriginalName();
-            // Enregistrer l'image dans le dossier 'uploads/community' dans 'storage/app/public'
             $filePath = $request->file('image_url')->storeAs('uploads/community', $fileName, 'public');
-            // Mettre à jour l'URL de l'image dans la base de données
-            $community->image_url = $filePath;
+            $community->image_url = $filePath; // Mettez à jour le chemin de l'image dans la base de données
         }
     
-        // Sauvegarde de la communauté
+        // Sauvegarder les changements
         $community->save();
+    
     
         // Redirection avec un message de succès
         return redirect()->route('communities.show', $community->id)->with('success', 'Communauté mise à jour avec succès.');
