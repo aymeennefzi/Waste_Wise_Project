@@ -189,47 +189,7 @@
 			<section class="pt-0">
 				<!-- Main banner frontground image -->
 				<div class="px-0">
-					<div class="bg-primary h-100px h-md-200px rounded-0"  style="background: url('{{ asset('front_office/assets/images/pattern/04.png') }}')  no-repeat center center;frontground-size: cover;"></div>
-				</div>
-				<div class="container"><div class="ms-5 mt-n4">
-					<div class="row">
-						<!-- Profile banner START -->
-						<!-- Profile banner START -->
-						<div class="col-12">
-							<div class="card bg-transparent card-body p-0">
-								<div class="row d-flex justify-content-between">
-									<!-- Avatar -->
-									<div class="col-auto mt-4 mt-md-0">
-										<div class="avatar avatar-xxl mt-n3">
-											<img class="avatar-img rounded-circle border border-white border-3 shadow"src="{{ asset(Auth::user()->profile_photo_path) }}"alt="Profile Picture" />
-										</div>
-									</div>
-									<div class="col d-md-flex justify-content-between align-items-center mt-4">
-										<div>
-											<h1 class="my-1 fs-4">{{ Auth::user()->name }}<i class="bi bi-patch-check-fill text-info small"></i></h1>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Profile banner END -->
-						<div class="col-12">
-							<div class="card bg-transparent card-body p-0">
-								<div class="row d-flex justify-content-between">
-									<!-- Avatar -->
-									<div class="col-auto mt-4 mt-md-0">
-										<div class="avatar avatar-xxl mt-n3"></div>
-									</div>
-								</div>
-							</div>
-							<hr class="d-xl-none" />
-							<div class="col-12 col-xl-3 d-flex justify-content-between align-items-center">
-								<a class="h6 mb-0 fw-bold d-xl-none" href="#">Menu</a>
-								<button class="btn btn-primary d-xl-none"type="button"data-bs-toggle="offcanvas"data-bs-target="#offcanvasSidebar"aria-controls="offcanvasSidebar"><i class="fas fa-sliders-h"></i></button>
-							</div>
-							<!-- Advanced filter responsive toggler END -->
-						</div>
-					</div>
+					<div class="bg-primary h-100px h-md-100px rounded-0"  style="background: url('{{ asset('front_office/assets/images/pattern/04.png') }}')  no-repeat center center;frontground-size: cover;"></div>
 				</div>
 			</div>
 			</section>
@@ -267,7 +227,7 @@
 					</div>
 					<!-- Left sidebar END -->
 					<!-- Main content START -->
-					<div class="col-xl-9">
+					<div class="col-xl-9 mb-8 ">
 
           @yield('content')
 
@@ -278,7 +238,9 @@
 				<!-- Row END -->
 			</section>
 		</main>
+		<div>
 		@include('Shared.footer-front')
+	   </div>
 		<!-- Bootstrap JS -->
 		<script src="{{ asset('front_office/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 		<!-- Vendors -->
