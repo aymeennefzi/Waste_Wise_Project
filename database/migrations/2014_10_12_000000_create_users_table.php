@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path')->default('default.jpg');
             $table->timestamps();
-            $table->string('utype')->default('USR')->comment('ADM for admin and USR for user ');
+            $table->string('utype')->default('USR')->comment('ADMIN for admin and USR for user ');
         });
     }
 
