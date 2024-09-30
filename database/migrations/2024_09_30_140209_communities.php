@@ -13,7 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('communities', function (Blueprint $table) {
+            $table->id(); // Cette ligne ajoute une colonne 'id'
+            $table->string('name');
+            $table->text('description');
+            $table->string('image_url')->nullable();
+            $table->timestamps();
+        });
+        
     }
 
     /**
