@@ -16,14 +16,14 @@
 
 
       <li>
-        <a href="icons.html">
-          <i class="zmdi zmdi-invert-colors"></i> <span>UI Icons</span>
+        <a  href="{{ route('admin.adviceType') }}" >
+          <i class="zmdi zmdi-book"></i> <span>Advice Types</span>
         </a>
       </li>
 
       <li>
-        <a href="forms.html">
-          <i class="zmdi zmdi-format-list-bulleted"></i> <span>Forms</span>
+        <a href="{{ route('admin.WasteTips') }}">
+          <i class="zmdi zmdi-format-list-bulleted"></i> <span>Waste tips</span>
         </a>
       </li>
 

@@ -9,6 +9,14 @@
 		<title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
 		<!-- loader-->
 		<link href="{{ asset('Back_office/assets/css/pace.min.css')}}" rel="stylesheet"/>
+		<!-- Add this in your <head> section for Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Add this before the closing </body> tag for Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+
 		<script src="{{ asset('Back_office/assets/js/pace.min.js')}}"></script>
 		<!--favicon-->
 		<link rel="icon" href="{{ asset('Back_office/assets/images/favicon.ico')}}" type="image/x-icon">
@@ -29,35 +37,40 @@
 		<!-- Custom Style-->
 		<link href="{{ asset('Back_office/assets/css/app-style.css')}}" rel="stylesheet"/>
 	</head>
-	<body class="bg-theme bg-theme2">
+	<body class="bg-theme bg-theme1">
 		<!-- Start wrapper-->
 		<div id="wrapper">
-			<!-- Inclure le header -->
-			@include('Shared.header')
-			<!-- Inclure le sideBar -->
-			@include('Shared.sideBar')
-			<div class="clearfix"></div>
-			<div class="content-wrapper ">
-				<div class="container-fluid ">
-					<!--Start Dashboard Content-->
-					<div class="card mt-3 ">
-					<div class="card-body ">
+			<!-- start loader -->
+			<div id="pageloader-overlay" class="visible incoming"><div class="loader-wrapper-outer"><div class="loader-wrapper-inner" ><div class="loader"></div></div></div></div>
+   <!-- end loader -->
 
-						  <!-- -------- ici -------- -->
-						  @yield('content') <!-- Cette ligne permet d'inclure le contenu spécifique -->
-                    <!-- --------------------- -->
-					</div>
-					</div>
-					<!--End Dashboard Content-->
-				</div>
-				<!--End content-wrapper-->
-				<!--Start Back To Top Button-->
-				<a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
-				<!--End Back To Top Button-->
-				@include('Shared.footer') 
-				<!-- Inclure le footer -->
-			</div>
-			<!--End wrapper-->
+	@include('Shared.sideBar')
+	@include('Shared.header')
+
+
+
+<div class="clearfix"></div>
+	
+  <div class="content-wrapper">
+    <div class="container-fluid">
+	@yield('content')
+    </div>
+
+	<!--start overlay-->
+		  <div class="overlay toggle-menu"></div>
+		<!--end overlay-->
+	
+    </div>
+    <!-- End container-fluid-->
+   </div><!--End content-wrapper-->
+   <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
+	
+
+
+  </div><!--End wrapper-->
+
 			<!-- Bootstrap core JavaScript-->
 			<script src="{{ asset('Back_office/assets/js/jquery.min.js')}}"></script>
 			<script src="{{ asset('Back_office/assets/js/popper.min.js')}}"></script>

@@ -8,6 +8,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('layouts.user'); // Retourne la vue dashboard.blade.php
+        return view('admin.dashboard');
     }
 }

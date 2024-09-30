@@ -28,7 +28,7 @@
 		<!-- Custom Style-->
 		<link href="{{ asset('Back_office/assets/css/app-style.css')}}" rel="stylesheet"/>
 	</head>
-	<body class="bg-theme bg-theme2">
+	<body class="bg-theme bg-theme1">
 		<!-- Start wrapper-->
 		<div id="wrapper">
 			<div class="height-100v d-flex align-items-center justify-content-center">
