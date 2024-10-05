@@ -12,4 +12,8 @@ WORKDIR /app
 
 COPY . /app
 
-RUN ls
+RUN composer install --prefer-dist --no-suggest
+
+CMD php artisan serve --host=0.0.0.0 --port=5000
+
+EXPOSE 5000
