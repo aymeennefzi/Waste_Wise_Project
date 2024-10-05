@@ -51,4 +51,8 @@ jobs:
       - name: Build Docker image
         run: |
           cd ./artifact
-          ls      
+          ls
+          tar -xzf ${{ github.sha }}.tar.gz
+          docker build -t waste_wise .
+
+      
