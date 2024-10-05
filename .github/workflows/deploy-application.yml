@@ -41,3 +41,10 @@ jobs:
         with:
           name: app-build
           path: ${{ github.sha }}.tar.gz
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: app-build
+          path: ./artifact
+      
