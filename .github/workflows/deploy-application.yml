@@ -69,10 +69,10 @@ jobs:
     needs: build  # Correction: s'assurer que le déploiement dépend du job
 
     steps:
-      - name: SSH to VM and Deploy Application
+      - name: Set up SSH Agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      -name: Pull Docker image
-      run: ssh ubuntu-server@192.168.19.128 "docker pull aymennefzi99/wastewise:latest"
-      
+
+      - name: Pull Docker image
+        run: ssh ubuntu-server@192.168.19.128 "docker pull aymennefzi99/wastewise:latest"
