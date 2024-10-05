@@ -64,3 +64,16 @@ jobs:
         run: |
           cd ./artifact
           docker-compose up -d
+
+
+      - name: Wait for application to be ready
+        run: |
+          echo "Waiting for application to be ready..."
+          for i in {1..10}; do
+            curl -f http://localhost:5000 && break || sleep 5
+          done
+
+      
+      - name: Check application logs
+        run: docker-compose logs app
+
