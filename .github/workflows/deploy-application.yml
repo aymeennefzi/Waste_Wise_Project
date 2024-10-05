@@ -54,5 +54,5 @@ jobs:
           # Extraire l'artifact
           tar -xzf "${{ github.sha }}.tar.gz"
           # Construire l'image Docker
-          docker build -t Waste_Wise_application .
+          docker build -t waste_wise
       
