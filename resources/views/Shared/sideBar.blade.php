@@ -14,7 +14,11 @@
     </a>
 </li>
 
-
+      <li>
+        <a href="profile.html">
+          <i class="zmdi zmdi-face"></i> <span>Collecte</span>
+        </a>
+      </li>
       <li>
         <a  href="{{ route('admin.adviceType') }}" >
           <i class="zmdi zmdi-book"></i> <span>Advice Types</span>
@@ -28,23 +32,18 @@
       </li>
 
       <li>
-        <a href="tables.html">
-          <i class="zmdi zmdi-grid"></i> <span>Tables</span>
+        <a href="{{ route('admin.collectionCenter') }}">
+          <i class="zmdi zmdi-grid"></i> <span>Centre de collecte</span>
         </a>
       </li>
 
       <li>
         <a href="calendar.html">
-          <i class="zmdi zmdi-calendar-check"></i> <span>Calendar</span>
-          <small class="badge float-right badge-light">New</small>
+          <i class="zmdi zmdi-calendar-check"></i> <span>Chauffeur</span>
         </a>
       </li>
 
-      <li>
-        <a href="profile.html">
-          <i class="zmdi zmdi-face"></i> <span>Profile</span>
-        </a>
-      </li>
+    
 
       <li>
         <a href="login.html" target="_blank">

@@ -10804,6 +10804,29 @@ textarea.form-control-lg {
   background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
 }
 
+.fixed-size-img {
+  width: 120px;  /* Changez cette valeur selon votre besoin */
+  height: 120px; /* Changez cette valeur selon votre besoin */
+  object-fit: cover; /* Assurez-vous que l'image s'adapte à la taille définie */
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #206B75; /* Couleur de fond */
+  color: white; /* Couleur du texte */
+  border-color: #206B75; /* Couleur de la bordure */
+}
+
+.pagination .page-link {
+  border: 1px solid #ccc; /* Couleur de bordure par défaut */
+  padding: 0.25rem 0.5rem; /* Réduisez la taille du padding */
+    font-size: 0.875rem; /* Ajustez la taille de la police */
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #6c757d; /* Couleur du texte pour le bouton désactivé */
+}
+
+
 .bg-secondary {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity)) !important;

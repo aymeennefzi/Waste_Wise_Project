@@ -17,6 +17,24 @@ class WasteTipController extends Controller
     return view('admin.WasteTips', compact('adviceTypes', 'wasteTips'));
 }
 
+
+
+public function index1(Request $request)
+{
+    $query = $request->input('query');
+
+    $wasteTips = WasteTip::with('adviceType')
+        ->when($query, function ($queryBuilder) use ($query) {
+            return $queryBuilder->where('title', 'LIKE', '%' . $query . '%')
+                                ->orWhere('content', 'LIKE', '%' . $query . '%');
+        })
+        ->paginate(5); // Nombre d'éléments par page
+
+    return view('user.WasteTips', compact('wasteTips'));
+}
+
+
+
    public function store(Request $request)
    {
        $request->validate([
