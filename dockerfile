@@ -12,10 +12,4 @@ WORKDIR /app
 
 COPY . /app
 
-RUN tar -xzf app-build.tar.gz && rm app-build.tar.gz
-
-RUN composer install --prefer-dist --no-suggest
-
-CMD php artisan serve --host=0.0.0.0 --port=5000
-
-EXPOSE 5000
+RUN ls
