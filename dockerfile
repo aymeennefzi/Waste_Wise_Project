@@ -10,12 +10,12 @@ RUN docker-php-ext-install pdo_mysql mbstring
 
 WORKDIR /app
 
-COPY /home/runner/work/Waste_Wise_Project/Waste_Wise_Project/artifact/app-build.tar.gz .
+COPY . /app
 
 RUN tar -xzf app-build.tar.gz && rm app-build.tar.gz
 
 RUN composer install --prefer-dist --no-suggest
 
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan serve --host=0.0.0.0 --port=5000
 
-EXPOSE 8000
+EXPOSE 5000
