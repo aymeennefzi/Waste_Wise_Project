@@ -227,6 +227,9 @@
 										</a>										
 										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>
 										<a class="list-group-item" href="/user-dashboard/WasteTips"><i class="fas fa-plus fa-fw"  ></i>Waste tips</a>
+
+										</a>										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>
+										<a class="list-group-item"><i class="fas fa-plus fa-fw"></i>Waste tips</a>
 										<a class="list-group-item"><i class="fas fa-stream"></i>Donnation</a>
 										<a class="list-group-item text-danger bg-danger-soft-hover"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
 									</div>
