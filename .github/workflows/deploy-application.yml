@@ -34,7 +34,7 @@ jobs:
       - name: Create deployment artifact
         env:
           GITHUB_SHA: ${{ github.sha }}
-        run: tar -czf "${GITHUB_SHA}".tar.gz --exclude=*.git --exclude=node_modules *
+        run: tar -czf "${GITHUB_SHA}".tar.gz --exclude=*.git --exclude=node_modules * 
 
       - name: Store artifact for distribution
         uses: actions/upload-artifact@v3
@@ -48,6 +48,11 @@ jobs:
           name: app-build
           path: ./artifact
 
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
       - name: Build Docker image
         run: |
           cd ./artifact
@@ -57,6 +62,5 @@ jobs:
 
       - name: Run Docker Compose
         run: |
+          cd ./artifact
           docker-compose up -d
-
-      
