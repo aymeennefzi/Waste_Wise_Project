@@ -49,12 +49,7 @@ jobs:
         with:
           name: app-build
           path: ./artifact
-
-      - name: Install Docker and Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io docker-compose
-
+          
       - name: Build Docker image
         run: |
           cd ./artifact
