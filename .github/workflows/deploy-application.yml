@@ -1,0 +1,23 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - master 
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      APP_KEY: ${{ secrets.APP_KEY }}
+    
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+
+
