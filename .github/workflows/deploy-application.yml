@@ -70,13 +70,9 @@ jobs:
 
     steps:
       - name: SSH to VM and Deploy Application
-        uses: appleboy/ssh-action@v0.1.8
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          host: 192.168.19.128
-          username: ${{ secrets.VM_USER }}
-          password: ${{ secrets.VM_PASSWORD }}  # Mot de passe SSH
-          port: 22
-          script: |
-            docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
-            docker pull aymennefzi99/wastewise:latest  # Correction du nom d'image
-            docker run -d --name your-app -p 80:80 aymennefzi99/wastewise:latest
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      -name: Pull Docker image
+      run: ssh ubuntu-server@192.168.19.128 "docker pull aymennefzi99/wastewise:latest"
+      
