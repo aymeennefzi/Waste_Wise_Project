@@ -49,7 +49,7 @@ jobs:
         with:
           name: app-build
           path: ./artifact
-          
+
       - name: Build Docker image
         run: |
           cd ./artifact
@@ -66,7 +66,7 @@ jobs:
   deploy_to_vm:
     name: Deploy Docker Image to VM
     runs-on: ubuntu-latest
-    needs: build  # Correction: s'assurer que le déploiement dépend du job 'build'
+    needs: build  # Correction: s'assurer que le déploiement dépend du job
 
     steps:
       - name: SSH to VM and Deploy Application
