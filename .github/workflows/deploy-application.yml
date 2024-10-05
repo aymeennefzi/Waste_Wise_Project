@@ -55,4 +55,8 @@ jobs:
           tar -xzf ${{ github.sha }}.tar.gz
           docker build -t waste_wise .
 
+      - name: Run Docker Compose
+        run: |
+          docker-compose up -d
+
       
