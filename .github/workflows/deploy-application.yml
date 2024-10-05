@@ -51,8 +51,4 @@ jobs:
       - name: Build Docker image
         run: |
           cd ./artifact
-          # Extraire l'artifact
-          tar -xzf "${{ github.sha }}.tar.gz"
-          # Construire l'image Docker
-          docker build -t waste_wise
-      
+          ls      
