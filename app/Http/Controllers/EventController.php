@@ -19,6 +19,13 @@ class EventController extends Controller
         return view('events.allEvents', ['events' => $events]);
     }
 
+
+    public function index2()
+    {
+        $events = event::all();
+        return view('events.newEvents', ['events' => $events]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -41,7 +48,7 @@ class EventController extends Controller
         $event->eventDate = $request->input('eventDate');
         $event->location = $request->input('location');
         $event->descreption = $request->input('descreption');
-        $event->communityId = $request->input('communityId');
+        // $event->communityId = $request->input('communityId');
         $event->createdAt = now();
         $event->updatedAt = now();
         $event->save();

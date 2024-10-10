@@ -257,7 +257,7 @@
 										<a class="list-group-item"><i class="fas fa-stream"></i>Donnation</a>
 										<a class="list-group-item text-danger bg-danger-soft-hover"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
 									</div>
-								</div>	
+								</div>
 							</div>
 						</div>
 						<!-- Responsive offcanvas body END -->

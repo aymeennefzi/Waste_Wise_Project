@@ -52,17 +52,12 @@ require __DIR__.'/auth.php';
 
 
 //events
-
-
-// Route::resource('events', EventController::class);
-// Route::get('events/create', [EventController::class, 'store'])->name('events.addEvents');
-
-
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
 Route::post('/events', [EventController::class, 'store'])->name('events.store');
-
 Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
 Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
 Route::delete('/events/{id}/destroy', [EventController::class, 'destroy'])->name('events.destroy');
+Route::get('/newevents', [EventController::class, 'index2'])->name('events.index2');
+Route::get('/test', function () {return view('events.test');});
 
