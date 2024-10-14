@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
+@extends('layouts.adminLayout')
+
+@section('content')
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,21 +27,43 @@
             opacity: 0;
             transform: translateY(-10px);
         }
+
+        /* Ajout d'une animation hover plus prononcée sur les cartes */
+        .card-container {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style des boutons */
+        .create-button {
+            background-color: #38a169;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .create-button:hover {
+            background-color: #2f855a;
+        }
+
+        /* Style pour les alertes */
+        .alert {
+            background-color: #f56565;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-md">
-        <div class="max-w-7xl mx-auto p-4 flex justify-between items-center">
-            <a href="/" class="text-lg font-semibold text-gray-800 hover:text-green-500 transition">
-                <i class="fas fa-home"></i> Accueil
-            </a>
-            <a href="/recycling-center" class="ml-4 text-lg text-gray-600 hover:text-green-500 transition">
-                <i class="fas fa-recycle"></i> Centres de recyclage
-            </a>
-        </div>
-    </nav>
 
+<body class="bg-gray-100 min-h-screen">
     <!-- Page Heading -->
     <header class="bg-white shadow mt-6">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
@@ -50,7 +73,7 @@
 
             <!-- Bouton Créer un Nouveau Centre (visible uniquement pour l'admin) -->
             @if(auth()->check() && auth()->user()->utype == 'ADMIN')
-                <a href="{{ route('recycling_centers.create') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                <a href="{{ route('recycling_centers.create') }}" class="create-button">
                     <i class="fas fa-plus-circle"></i> Créer un nouveau centre de recyclage
                 </a>
             @endif
@@ -61,7 +84,7 @@
     <main class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if ($centers->isEmpty())
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <div class="alert">
                     <strong class="font-bold">Aucun centre de recyclage trouvé !</strong>
                     <span class="block sm:inline">Veuillez vérifier plus tard.</span>
                 </div>
@@ -119,12 +142,5 @@
             @endif
         </div>
     </main>
-
-    <!-- Footer -->
-    <footer class="bg-white mt-12 shadow-lg py-4">
-        <div class="max-w-7xl mx-auto px-4 text-center text-gray-600">
-            &copy; 2024 Waste Wise - Tous droits réservés.
-        </div>
-    </footer>
 </body>
-</html>
+@endsection

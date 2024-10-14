@@ -1,4 +1,3 @@
-{{-- //userblade --}}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -106,8 +105,12 @@
 			<nav class="navbar navbar-expand-xl">
 				<div class="container">
 					<!-- Logo START -->
-					<a class="navbar-brand" href="index.html"><img src="{{ asset('LandingPage/assets/img/logo/loder1.png') }}" class="logo-img" alt="logo" width="40" height="auto"></a>
+					<a class="navbar-brand d-flex align-items-center" href="index.html">
+						<img src="{{ asset('LandingPage/assets/img/logo/loder1.png') }}" class="logo-img" alt="logo" width="40" height="auto">
+						<span class="ms-2" style="font-size: 24px; color: #206B75;">Waste wise</span> <!-- Ajoutez votre nom ici -->
+					</a>
 					<!-- Logo END -->
+
 					<!-- Responsive navbar toggler -->
 					<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-animation">
@@ -116,9 +119,12 @@
 							<span></span>
 						</span>
 					</button>
+
 					<!-- Profile START -->
 					<div class="dropdown ms-1 ms-lg-0">
-						<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false"><img class="avatar-img rounded-circle" src="{{ asset(Auth::user()->profile_photo_path) }}"alt="avatar"></a>
+					<span class="h6 m-3" style="font-size: 18px; color: #404040; margin-left: 10px;">{{ Auth::user()->name }}</span>
+
+					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false"><img class="avatar-img rounded-circle" src="{{ asset(Auth::user()->profile_photo_path) }}"alt="avatar"></a>
 						<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
 							<!-- Profile info -->
 							<li class="px-3 mb-3">
@@ -127,6 +133,7 @@
 									<div class="avatar me-3">
 										<img class="avatar-img rounded-circle shadow" src="{{ asset(Auth::user()->profile_photo_path) }}" alt="avatar">
 									</div>
+
 									<div>
 										<a class="h6" href="#">{{ Auth::user()->name }}</a>
 										<p class="small m-0">
@@ -176,7 +183,9 @@
 								</div>
 							</li>
 							<!-- Dark mode options END-->
+							 
 						</ul>
+
 					</div>
 					<!-- Profile START -->
 				</div>
@@ -189,47 +198,7 @@
 			<section class="pt-0">
 				<!-- Main banner frontground image -->
 				<div class="px-0">
-					<div class="bg-primary h-100px h-md-200px rounded-0"  style="background: url('{{ asset('front_office/assets/images/pattern/04.png') }}')  no-repeat center center;frontground-size: cover;"></div>
-				</div>
-				<div class="container"><div class="ms-5 mt-n4">
-					<div class="row">
-						<!-- Profile banner START -->
-						<!-- Profile banner START -->
-						<div class="col-12">
-							<div class="card bg-transparent card-body p-0">
-								<div class="row d-flex justify-content-between">
-									<!-- Avatar -->
-									<div class="col-auto mt-4 mt-md-0">
-										<div class="avatar avatar-xxl mt-n3">
-											<img class="avatar-img rounded-circle border border-white border-3 shadow"src="{{ asset(Auth::user()->profile_photo_path) }}"alt="Profile Picture" />
-										</div>
-									</div>
-									<div class="col d-md-flex justify-content-between align-items-center mt-4">
-										<div>
-											<h1 class="my-1 fs-4">{{ Auth::user()->name }}<i class="bi bi-patch-check-fill text-info small"></i></h1>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Profile banner END -->
-						<div class="col-12">
-							<div class="card bg-transparent card-body p-0">
-								<div class="row d-flex justify-content-between">
-									<!-- Avatar -->
-									<div class="col-auto mt-4 mt-md-0">
-										<div class="avatar avatar-xxl mt-n3"></div>
-									</div>
-								</div>
-							</div>
-							<hr class="d-xl-none" />
-							<div class="col-12 col-xl-3 d-flex justify-content-between align-items-center">
-								<a class="h6 mb-0 fw-bold d-xl-none" href="#">Menu</a>
-								<button class="btn btn-primary d-xl-none"type="button"data-bs-toggle="offcanvas"data-bs-target="#offcanvasSidebar"aria-controls="offcanvasSidebar"><i class="fas fa-sliders-h"></i></button>
-							</div>
-							<!-- Advanced filter responsive toggler END -->
-						</div>
-					</div>
+					<div class="bg-primary h-100px h-md-100px rounded-0"  style="background: url('{{ asset('front_office/assets/images/pattern/04.png') }}')  no-repeat center center;frontground-size: cover;"></div>
 				</div>
 			</div>
 			</section>
@@ -252,8 +221,14 @@
 									<!-- Dashboard menu -->
 									<div class="list-group list-group-dark list-group-borderless">
 										<a class="list-group-item"><i class="fas fa-address-card fa-fw me-2"></i>Event<a>
-										<a class="list-group-item"><i class="fas fa-plus fa-fw"></i>Community</a>
-										<a class="list-group-item" href="{{ route('recycling_centers.index') }}"><i class="fas fa-stream"></i>Recycle Center</a>
+										<a class="list-group-item"> <i class="fas fa-plus fa-fw"></i>Community</a>
+										<a class="list-group-item" href="/user-dashboard/membership">
+											<i class="fas fa-plus fa-fw"></i> Membership
+										</a>										
+										<a class="list-group-item" href="{{ route('recycling_centers.index')}}"><i class="fas fa-stream"></i>Recycle Center</a>
+										<a class="list-group-item" href="/user-dashboard/WasteTips"><i class="fas fa-plus fa-fw"  ></i>Waste tips</a>
+
+										</a>										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>
 										<a class="list-group-item"><i class="fas fa-plus fa-fw"></i>Waste tips</a>
 										<a class="list-group-item"><i class="fas fa-stream"></i>Donnation</a>
 										<a class="list-group-item text-danger bg-danger-soft-hover"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
@@ -265,13 +240,20 @@
 					</div>
 					<!-- Left sidebar END -->
 					<!-- Main content START -->
-					<div class="col-xl-9"></div>
+					<div class="col-xl-9 mb-8 ">
+
+          @yield('content')
+
+
+					</div>
 					<!-- Main content END -->
 				</div>
 				<!-- Row END -->
 			</section>
 		</main>
+		<div>
 		@include('Shared.footer-front')
+	   </div>
 		<!-- Bootstrap JS -->
 		<script src="{{ asset('front_office/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 		<!-- Vendors -->

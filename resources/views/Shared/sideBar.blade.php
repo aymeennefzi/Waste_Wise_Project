@@ -32,6 +32,11 @@
           <i class="zmdi zmdi-grid"></i> <span>Tables</span>
         </a>
       </li>
+      <li>
+        <a href="{{ route('recycling_centers.admin')}}">
+          <i class="zmdi zmdi-grid" ></i> <span>recycling_centers</span>
+        </a>
+      </li>
 
       <li>
         <a href="calendar.html">

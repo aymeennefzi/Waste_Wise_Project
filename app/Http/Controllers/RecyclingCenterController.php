@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RecyclingCenter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class RecyclingCenterController extends Controller
@@ -16,16 +17,33 @@ class RecyclingCenterController extends Controller
     public function index()
     {
         // Récupérer toutes les données des centres de recyclage
-        $centers = RecyclingCenter::with('materials')->get();    
-        // Vérifier que les données sont bien envoyées
-        if ($centers->isEmpty()) {
-            // Rediriger avec une erreur
-            return redirect()->route('recycling_centers.index')->withErrors(['no_centers' => 'Aucun centre de recyclage trouvé.']);
+        $centers = RecyclingCenter::with('materials')->get();
+    
+        // Vérifier si l'utilisateur est authentifié
+        if (Auth::check()) {
+            // Vérifier le type d'utilisateur
+            if (Auth::user()->utype === 'USR') {
+                // Rediriger l'utilisateur vers la vue spécifique des utilisateurs normaux
+                return view('layouts.recycling_centers.user', compact('centers'));
+            } elseif (Auth::user()->utype === 'ADMIN') {
+                // Rediriger l'administrateur vers la vue d'administration
+                return view('layouts.recycling_centers.index', compact('centers'));
+            } else {
+                // Gestion des types d'utilisateurs non pris en charge
+                return redirect()->route('home')->with('error', 'Type d’utilisateur non reconnu.');
+            }
+        } else {
+            // Rediriger vers la page de connexion ou une autre page
+            return redirect()->route('login')->with('message', 'Veuillez vous connecter pour continuer.');
         }
     
-        return view('layouts.recycling_centers.index', compact('centers'));
+        // Si aucun centre n'est trouvé, afficher un message d'erreur
+        if ($centers->isEmpty()) {
+            return redirect()->route('recycling_centers.index')->withErrors(['no_centers' => 'Aucun centre de recyclage trouvé.']);
+        }
     }
-
+    
+    
     /**
      * Show the form for creating a new resource.
      *
