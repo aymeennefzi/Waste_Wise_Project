@@ -226,6 +226,7 @@
 											<i class="fas fa-plus fa-fw"></i> Membership
 										</a>										
 										<a class="list-group-item" href="{{ route('recycling_centers.index')}}"><i class="fas fa-stream"></i>Recycle Center</a>
+										<a class="list-group-item" href="{{ route('materials.user')}}"><i class="fas fa-stream"></i>Materials</a>
 										<a class="list-group-item" href="/user-dashboard/WasteTips"><i class="fas fa-plus fa-fw"  ></i>Waste tips</a>
 
 										</a>										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>

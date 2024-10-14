@@ -37,6 +37,11 @@
           <i class="zmdi zmdi-grid" ></i> <span>recycling_centers</span>
         </a>
       </li>
+      <li>
+        <a href="{{ route('materials.index')}}">
+          <i class="zmdi zmdi-grid" ></i> <span>materials</span>
+        </a>
+      </li>
 
       <li>
         <a href="calendar.html">

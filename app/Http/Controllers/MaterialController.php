@@ -6,6 +6,7 @@ use App\Http\Livewire\RecyclingCenter;
 use App\Models\Material;
 use App\Models\RecyclingCenter as ModelsRecyclingCenter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MaterialController extends Controller
 {
@@ -16,8 +17,23 @@ class MaterialController extends Controller
      */
     public function index()
 {
-    $materials = Material::with('recyclingCenter')->get();
-    return view('layouts.materials.index', compact('materials'));
+    $materials = Material::with('recyclingCenter')->paginate(10);
+    if (Auth::check()) {
+        // Vérifier le type d'utilisateur
+        if (Auth::user()->utype === 'ADMIN') {
+            // Rediriger l'utilisateur vers la vue spécifique des utilisateurs normaux
+            return view('layouts.materials.index', compact('materials'));
+        } elseif (Auth::user()->utype === 'USR') {
+            // Rediriger l'administrateur vers la vue d'administration
+            return view('layouts.materials.user', compact('materials'));
+        } else {
+            // Gestion des types d'utilisateurs non pris en charge
+            return redirect()->route('home')->with('error', 'Type d’utilisateur non reconnu.');
+        }
+    } else {
+        // Rediriger vers la page de connexion ou une autre page
+        return redirect()->route('login')->with('message', 'Veuillez vous connecter pour continuer.');
+    }
 }
 
 public function create()

@@ -57,13 +57,17 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Material Routes
-    Route::prefix('materials')->group(function () {
+    Route::prefix('admin-dashboard/materials')->group(function () {
         Route::get('/', [MaterialController::class, 'index'])->name('materials.index');
         Route::get('/create', [MaterialController::class, 'create'])->name('materials.create');
         Route::post('/', [MaterialController::class, 'store'])->name('materials.store');
         Route::get('/{id}/edit', [MaterialController::class, 'edit'])->name('materials.edit');
         Route::put('/{id}', [MaterialController::class, 'update'])->name('materials.update');
         Route::delete('/{id}', [MaterialController::class, 'destroy'])->name('materials.destroy');
+    });
+    Route::prefix('user-dashboard/materials')->group(function () {
+        Route::get('/', [MaterialController::class, 'index'])->name('materials.user');
+       
     });
 });
 
