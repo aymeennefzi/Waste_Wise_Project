@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\TaskController;
 
 
 /*
@@ -38,10 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('communities', CommunityController::class);
 
+    Route::resource('tasks', TaskController::class);
+
+
 });
 Route::get('/user-dashboard', function () {
     return view('layouts.user');
 })->name('layouts.user');
+
 Route::get('/admin-dashboard', function () {
     return view('layouts.adminLayout');
 })->name('layouts.adminLayout');

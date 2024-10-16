@@ -9,4 +9,8 @@ class Community extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'description','image_url',];
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
