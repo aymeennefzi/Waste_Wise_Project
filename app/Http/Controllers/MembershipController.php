@@ -28,6 +28,9 @@ class MembershipController extends Controller
         $request->validate([
             'communityId' => 'required|integer|exists:communities,id',
             'joinedAt' => 'required|date',
+
+            // 'joinedAt' => 'required|date|date_format:Y-m-d|after_or_equal:' . $currentYear . '-01-01|before_or_equal:' . $currentYear . '-12-31',
+
         ]);
 
         // Automatically assign the authenticated user's ID
