@@ -7,6 +7,10 @@ use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\AdviceTypeController;
 use App\Http\Controllers\WasteTipController;
 use App\Http\Controllers\CenteCollecteController;
+use App\Http\Controllers\ItemPostController;
+use App\Http\Controllers\MeetingController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,7 +23,7 @@ use App\Http\Controllers\CenteCollecteController;
 */
 
 Route::get('/', function () {
-    return view('HomePage.home');
+    return view('HomePage.content');
 });
 
 Route::get('/dashboard', function () {
@@ -43,6 +47,33 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+  //PostItem
+    // Route::resource('item-posts', ItemPostController::class);
+    // Route::get('item-posts/user', [ItemPostController::class, 'userPosts'])->name('item-posts.user');
+    Route::get('item-posts/user', [ItemPostController::class, 'userPosts'])->name('item-posts.user');
+    Route::get('item-posts', [ItemPostController::class, 'index'])->name('item-posts.index');
+    Route::get('item-posts/create', [ItemPostController::class, 'create'])->name('item-posts.create');
+    Route::post('item-posts', [ItemPostController::class, 'store'])->name('item-posts.store');
+    Route::get('item-posts/{id}', [ItemPostController::class, 'show'])->name('item-posts.show');
+    Route::get('item-posts/{id}/edit', [ItemPostController::class, 'edit'])->name('item-posts.edit');
+    Route::put('item-posts/{id}', [ItemPostController::class, 'update'])->name('item-posts.update');
+    Route::delete('item-posts/{id}', [ItemPostController::class, 'destroy'])->name('item-posts.destroy');
+
+
+    //meeting
+
+
+    Route::get('meetings', [App\Http\Controllers\MeetingController::class, 'index'])->name('meetings.index');
+
+    Route::get('meetings/create/{item_post_id}', [App\Http\Controllers\MeetingController::class, 'create'])->name('meetings.create');
+// Route for storing a new meeting
+    Route::post('meetings/create', [App\Http\Controllers\MeetingController::class, 'store'])->name('meetings.store');
+
+    Route::patch('meetings/{meeting}/accept', [App\Http\Controllers\MeetingController::class, 'accept'])->name('meetings.accept');
+    Route::patch('meetings/{meeting}/refuse', [App\Http\Controllers\MeetingController::class, 'refuse'])->name('meetings.refuse');
+    Route::get('meetings/{id}', [App\Http\Controllers\MeetingController::class, 'show'])->name('meetings.show');
+
+
 });
 Route::get('/user-dashboard', function () {
     return view('layouts.user');
@@ -56,6 +87,8 @@ Route::put('user-dashboard/membership/{membership}', [\App\Http\Controllers\Memb
 Route::delete('user-dashboard/membership/{id}', [\App\Http\Controllers\MembershipController::class, 'destroy'])->name('membership.destroy');
 Route::get('user-dashboard/membership', [\App\Http\Controllers\MembershipController::class, 'index'])->name('membership.index');
 Route::get('user-dashboard/membership/search', [\App\Http\Controllers\MembershipController::class, 'search'])->name('membership.search');
+
+
 
 
 Route::get('/admin-dashboard', function () {

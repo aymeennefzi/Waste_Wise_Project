@@ -3,9 +3,11 @@
 @section('content')
 <div class="container">
     <h2>Create New Membership</h2>
+
     <form action="{{ route('membership.store') }}" method="POST">
         @csrf
 
+        
         <div class="form-group">
             <label for="communityId">Community</label>
             <select class="form-control" name="communityId" id="communityId" required>

@@ -102,7 +102,7 @@
 		<!-- Header START -->
 		<header class="navbar-light navbar-sticky">
 			<!-- Logo Nav START -->
-			<nav class="navbar navbar-expand-xl">
+			<nav class="navbar navbar-expand-xl" style="background-color: #396084">
 				<div class="container">
 					<!-- Logo START -->
 					<a class="navbar-brand d-flex align-items-center" href="index.html">
@@ -197,9 +197,9 @@
 			<!-- =======================Page Banner START -->
 			<section class="pt-0">
 				<!-- Main banner frontground image -->
-				<div class="px-0">
-					<div class="bg-primary h-100px h-md-100px rounded-0"  style="background: url('{{ asset('front_office/assets/images/pattern/04.png') }}')  no-repeat center center;frontground-size: cover;"></div>
-				</div>
+				{{-- <div class="px-0">
+					<div class="bg-primary h-100px h-md-100px rounded-0"  </div>
+				</div> --}}
 			</div>
 			</section>
 			<section class="pt-0">
