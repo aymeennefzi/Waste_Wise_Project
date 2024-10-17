@@ -74,4 +74,4 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Pull Docker image
-        run: ssh -o StrictHostKeyChecking=no ubuntu-server@192.168.19.128 "docker pull aymennefzi99/wastewise:latest"
+        run: ssh -o StrictHostKeyChecking=no ubuntu-server@192.168.19.128 "docker pull aymennefzi99/wastewise:latest1"
