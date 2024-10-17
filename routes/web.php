@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -60,4 +61,14 @@ Route::put('/events/{event}', [EventController::class, 'update'])->name('events.
 Route::delete('/events/{id}/destroy', [EventController::class, 'destroy'])->name('events.destroy');
 Route::get('/newevents', [EventController::class, 'index2'])->name('events.index2');
 Route::get('/test', function () {return view('events.test');});
+
+//tasks
+Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
+Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
+Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+Route::get('/newtasks', [TaskController::class, 'index2'])->name('tasks.index2');
+Route::get('/test', function () {return view('tasks.test');});
 

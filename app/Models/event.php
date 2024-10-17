@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class event extends Model
+class Event extends Model
 {
     use HasFactory;
-
 
     protected $fillable = [
         'eventName',
@@ -16,8 +15,12 @@ class event extends Model
         'location',
         'descreption',
         'communityId',
-        'eventDate',
         'createdAt',
         'updatedAt',
     ];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class); 
+    }
 }
