@@ -8,34 +8,54 @@
     @if($meetings->isEmpty())
         <p>You have no scheduled meetings.</p>
     @else
-        <table class="table">
-            <thead>
+        
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Giver </th>
+                <th>Item Name</th>
+                <th>Meeting Time</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($meetings as $meeting)
                 <tr>
-                    <th>Owner</th>
-                    <th>Buyer</th>
-                    <th>Meeting Time</th>
-                    <th>Status</th>
+                    <td>{{ $meeting->buyer->name }}</td>
+                    <td>{{ $meeting->itemPost->name ?? 'N/A' }}</td>
+                    <td>{{ $meeting->meeting_time }}</td>
+                    <td>
+                        @if($meeting->status == 1)
+                            Pending
+                        @elseif($meeting->status == 2)
+                            Accepted
+                        @elseif($meeting->status == 3)
+                            Refused
+                        @endif
+                    </td>
+                    <td>
+                        @if($meeting->owner_id == Auth::id() && $meeting->status == 1)
+                        <form action="{{ route('meetings.accept', $meeting->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('PATCH') <!-- Use this hidden input to spoof the PATCH method -->
+                            <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                        </form>
+                    
+                        <form action="{{ route('meetings.refuse', $meeting->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('PATCH') <!-- Use this hidden input to spoof the PATCH method -->
+                            <button type="submit" class="btn btn-danger btn-sm">Refuse</button>
+                        </form>
+                    @else
+                        No action available
+                    @endif
+                    
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach($meetings as $meeting)
-                    <tr>
-                        <td>{{ $meeting->owner_id }}</td>
-                        <td>{{ $meeting->buyer_id }}</td>
-                        <td>{{ \Carbon\Carbon::parse($meeting->meeting_time)->format('Y-m-d H:i') }}</td>
-                        <td>
-                            @if($meeting->status == 1)
-                                Waiting for answer
-                            @elseif($meeting->status == 2)
-                                Accepted
-                            @elseif($meeting->status == 3)
-                                Refused
-                            @endif
-                        </td>
-                                            </tr>
-                @endforeach
-            </tbody>
-        </table>
+            @endforeach
+        </tbody>
+    </table>
     @endif
 </div>
 @endsection

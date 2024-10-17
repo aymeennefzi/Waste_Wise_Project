@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ItemPost;
+use App\Models\Meeting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -16,12 +17,13 @@ class ItemPostController extends Controller
      */
     public function index()
     {
-        // Retrieve all ItemPost records including the stored address from the database
-        $itemPosts = ItemPost::all();
+        // Retrieve all ItemPost records where status = 1
+        $itemPosts = ItemPost::where('status', 1)->get();
     
         // Pass the retrieved item posts to the view
-        return view('item_posts\index', compact('itemPosts'));
+        return view('item_posts.index', compact('itemPosts'));
     }
+    
     
 
     public function getAddressFromCoordinates($lat, $lng)
@@ -122,11 +124,12 @@ class ItemPostController extends Controller
     
     public function userPosts()
     {
-        // Get the posts that belong to the authenticated user
-        $userPosts = ItemPost::where('user_id', Auth::id())->get();
+        // Get the posts that belong to the authenticated user along with the count of meetings
+        $userPosts = ItemPost::where('user_id', Auth::id())->withCount('meetings')->get();
     
-        return view('item_posts\user_posts', compact('userPosts'));
+        return view('item_posts.user_posts', compact('userPosts'));
     }
+    
 
 
 
@@ -208,16 +211,22 @@ $itemPost->save();
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ItemPost $itemPost)
+    public function destroy($id)
     {
-        if ($itemPost->image) {
-            Storage::disk('public')->delete($itemPost->image);
+        $itemPost = ItemPost::findOrFail($id); // Retrieve the item post using the ID
+    
+        try {
+            if ($itemPost->image) {
+                Storage::disk('public')->delete($itemPost->image);
+            }
+    
+            $itemPost->delete();
+            return redirect()->route('item-posts.index')->with('success', 'Item Post deleted successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('item-posts.index')->with('error', 'Failed to delete Item Post: ' . $e->getMessage());
         }
-
-        $itemPost->delete();
-        return redirect()->route('item-posts.index')->with('success', 'Item Post deleted successfully!');
     }
-
+    
 
 
 

@@ -14,6 +14,7 @@ class Meeting extends Model
         'buyer_id',
         'meeting_time',
         'status',
+        'item_post_id'
     ];
 
     // Define the relationship with the User model
@@ -25,5 +26,10 @@ class Meeting extends Model
     public function buyer()
     {
         return $this->belongsTo(User::class, 'buyer_id');
+    }
+
+    public function itemPost()
+    {
+        return $this->belongsTo(ItemPost::class, 'item_post_id');
     }
 }

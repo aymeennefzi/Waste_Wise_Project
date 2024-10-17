@@ -16,4 +16,8 @@ class ItemPost extends Model
     {
         return $this->belongsTo(User::class, 'userId'); 
     }
+    public function meetings()
+    {
+        return $this->hasMany(Meeting::class, 'item_post_id');
+    }
 }

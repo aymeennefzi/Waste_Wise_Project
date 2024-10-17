@@ -27,7 +27,7 @@
                     </div>
                     <div class="btn-sm position-absolute" style="top: 10px; right: 15px;">
                         <a href="{{ route('item-posts.edit', $post->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="{{ route('item-posts.edit', $post->id) }}" class="btn btn-primary btn-sm ">Meet</a>
+                        <a href="{{ route('meetings.show', $post->id) }}" class="btn btn-primary btn-sm">Meet ({{ $post->meetings_count }})</a>
 
                     </div>
                 </div>
