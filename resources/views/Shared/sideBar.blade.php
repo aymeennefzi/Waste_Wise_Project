@@ -12,8 +12,19 @@
     <a href="{{ route('dashboard') }}">
         <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
     </a>
+    
 </li>
-
+<li>
+<a href="{{ route('donations.admin.index') }}">
+<i class="zmdi zmdi-money"></i>
+ <span>Donations</span>
+    </a>
+</li>
+<li>
+<a href="{{ route('admin.campaigns.index') }}">
+<i class="zmdi zmdi-assignment"></i><span>Campaigns</span>
+    </a>
+</li>
 
       <li>
         <a href="icons.html">

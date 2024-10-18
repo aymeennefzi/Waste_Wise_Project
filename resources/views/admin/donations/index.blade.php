@@ -1,9 +1,13 @@
 @extends('layouts.adminLayout')
 
 @section('content')
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="card-header d-flex justify-content-between align-items-center">
     <h4 class="mb-0">List of Donations</h4>
-    <a href="{{ route('donations.create') }}" class="btn btn-success">+ Add a Donation</a>
 </div>
 <div class="card-body">
     <div class="row mt-3">
@@ -15,32 +19,39 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                 
+                                    <th scope="col">User</th>
                                     <th scope="col">Amount</th>
-                                    <th scope="col">Doner Name</th>
+                                    <th scope="col">Donor Name</th>
                                     <th scope="col">Cause</th>
+                                    <th scope="col">Campaign Title</th>
+                                    <th scope="col">Status</th>
+                                    
                                     <th scope="col">Actions</th>
-
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($donations as $donation)
                                     <tr>
-                                        
+                                        <td>{{ $donation->user->name }}</td>
                                         <td>{{ $donation->amount }}</td>
                                         <td>{{ $donation->donorName }}</td>
                                         <td>{{ $donation->cause }}</td>
+                                        <td>{{ $donation->campaign->name ?? 'N/A' }}</td>
                                         <td>
-                                            <a href="{{ route('donations.edit', $donation->id) }}" class="btn btn-warning">Edit</a>
-                                            
-                                            <form action="{{ route('donations.destroy', $donation->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this donation ?');">
-                                                    Delete
-                                                </button>
-                                            </form>
+                                            {{ $donation->status }}
                                         </td>
+                                        <td>
+    <a href="{{ route('donations.admin.edit', $donation->id) }}" class="btn btn-warning">Edit</a>
+    
+    <form action="{{ route('donations.destroy', $donation->id) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this donation?');">
+            Delete
+        </button>
+    </form>
+</td>
+
                                     </tr>
                                 @empty
                                     <tr>
