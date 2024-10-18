@@ -78,18 +78,15 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
   
   deploy_to_vm:
+    name: Deploy_to_VM
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: SSH into VM and deploy
+      - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.VM_HOST }}           # L'adresse IP de la VM
           username: ${{ secrets.VM_USERNAME }}   # Le nom d'utilisateur SSH de la VM
-          key: ${{ secrets.KEY }}             # La clé privée que vous avez ajoutée dans GitHub Secrets
+          password: ${{ secrets.VM_PASSWORD }}             # La clé privée que vous avez ajoutée dans GitHub Secrets
           port: ${{ secrets.VM_PORT }}           # (Optionnel) Le port SSH, par défaut 22
-          script: |
-            docker pull aymennefzi99/wastewise
+          script: whoami
