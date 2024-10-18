@@ -33,22 +33,22 @@ jobs:
       - name: Run Laravel Pint
         run: composer exec pint
       
-      - name: Create deployment artifact
-        env:
-          GITHUB_SHA: ${{ github.sha }}
-        run: tar -czf "${GITHUB_SHA}.tar.gz" --exclude=*.git --exclude=node_modules * 
+      # - name: Create deployment artifact
+      #   env:
+      #     GITHUB_SHA: ${{ github.sha }}
+      #   run: tar -czf "${GITHUB_SHA}.tar.gz" --exclude=*.git --exclude=node_modules * 
 
-      - name: Store artifact for distribution
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-build
-          path: ${{ github.sha }}.tar.gz
+      # - name: Store artifact for distribution
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: app-build
+      #     path: ${{ github.sha }}.tar.gz
 
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: app-build
-          path: ./artifact
+      # - name: Download artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: app-build
+      #     path: ./artifact
 
   push_to_registry:
     name: Push Docker image to Docker Hub
