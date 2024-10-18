@@ -88,5 +88,5 @@ jobs:
           host: ${{ secrets.VM_HOST }}           # L'adresse IP de la VM
           username: ${{ secrets.VM_USERNAME }}   # Le nom d'utilisateur SSH de la VM
           password: ${{ secrets.VM_PASSWORD }}             # La clé privée que vous avez ajoutée dans GitHub Secrets
-          port: ${{ secrets.VM_PORT }}           # (Optionnel) Le port SSH, par défaut 22
+          port: ${{ secrets.VM_PORT }}           
           script: whoami
