@@ -70,27 +70,22 @@ Route::middleware('auth')->group(function () {
     Route::get('meetings/{id}', [App\Http\Controllers\MeetingController::class, 'show'])->name('meetings.show');
 
 });
-//ADMIN 
+//ADMIN  
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/itemposts', [App\Http\Controllers\AdminPostController::class, 'index'])->name('admin.itemposts.index');
     Route::delete('/admin/itemposts/{id}', [App\Http\Controllers\AdminPostController::class, 'destroy'])->name('admin.itemposts.destroy');
     Route::get('/admin/itemposts/{id}/edit', [App\Http\Controllers\AdminPostController::class, 'edit'])->name('admin.itemposts.edit');
     Route::put('/admin/itemposts/{id}', [App\Http\Controllers\AdminPostController::class, 'update'])->name('admin.itemposts.update');
+});
 
-    // Meetings
-    Route::get('meetings', [MeetingController::class, 'index'])->name('meetings.index');
-    Route::get('meetings/create/{item_post_id}', [MeetingController::class, 'create'])->name('meetings.create');
-    Route::post('meetings/create', [MeetingController::class, 'store'])->name('meetings.store');
-    Route::patch('meetings/{meeting}/accept', [MeetingController::class, 'accept'])->name('meetings.accept');
-    Route::patch('meetings/{meeting}/refuse', [MeetingController::class, 'refuse'])->name('meetings.refuse');
-    Route::get('meetings/{id}', [MeetingController::class, 'show'])->name('meetings.show');
 
     // Communities
     Route::resource('communities', CommunityController::class);
 
     // Tasks
     Route::resource('tasks', TaskController::class);
-});
+
+
 
 
 
