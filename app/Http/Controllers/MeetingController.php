@@ -80,10 +80,10 @@ public function refuse($meetingId)
         $meeting->save();
 
         // Return a JSON response to trigger a page refresh
-        return response()->json(['success' => true]);
+        return redirect()->back()->with('success', 'Meeting refused and item status updated.');
     }
 
-    return response()->json(['success' => false, 'message' => 'Are you sure To refuse this meeting ?']);
+    return redirect()->back()->with('success', 'Meeting refused and item status updated.');
 }
 
 
