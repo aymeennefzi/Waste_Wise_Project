@@ -8,6 +8,7 @@ use App\Http\Controllers\AdviceTypeController;
 use App\Http\Controllers\WasteTipController;
 use App\Http\Controllers\ItemPostController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\AdminPostController;
 
 
 /*
@@ -55,22 +56,30 @@ Route::middleware('auth')->group(function () {
     Route::put('item-posts/{id}', [ItemPostController::class, 'update'])->name('item-posts.update');
     Route::delete('item-posts/{id}', [ItemPostController::class, 'destroy'])->name('item-posts.destroy');
 
-
     //meeting
-
-
     Route::get('meetings', [App\Http\Controllers\MeetingController::class, 'index'])->name('meetings.index');
-
     Route::get('meetings/create/{item_post_id}', [App\Http\Controllers\MeetingController::class, 'create'])->name('meetings.create');
-// Route for storing a new meeting
     Route::post('meetings/create', [App\Http\Controllers\MeetingController::class, 'store'])->name('meetings.store');
-
     Route::patch('meetings/{meeting}/accept', [App\Http\Controllers\MeetingController::class, 'accept'])->name('meetings.accept');
     Route::patch('meetings/{meeting}/refuse', [App\Http\Controllers\MeetingController::class, 'refuse'])->name('meetings.refuse');
     Route::get('meetings/{id}', [App\Http\Controllers\MeetingController::class, 'show'])->name('meetings.show');
 
+});
+//ADMIN 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/itemposts', [App\Http\Controllers\AdminPostController::class, 'index'])->name('admin.itemposts.index');
+    Route::delete('/admin/itemposts/{id}', [App\Http\Controllers\AdminPostController::class, 'destroy'])->name('admin.itemposts.destroy');
+    Route::get('/admin/itemposts/{id}/edit', [App\Http\Controllers\AdminPostController::class, 'edit'])->name('admin.itemposts.edit');
+    Route::put('/admin/itemposts/{id}', [App\Http\Controllers\AdminPostController::class, 'update'])->name('admin.itemposts.update');
+
 
 });
+
+
+
+
+
+
 Route::get('/user-dashboard', function () {
     return view('layouts.user');
 })->name('layouts.user');

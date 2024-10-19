@@ -28,8 +28,8 @@
       </li>
 
       <li>
-        <a href="tables.html">
-          <i class="zmdi zmdi-grid"></i> <span>Tables</span>
+        <a href="{{ route('admin.itemposts.index') }}">
+          <i class="zmdi zmdi-grid"></i> <span>Posts</span>
         </a>
       </li>
 
