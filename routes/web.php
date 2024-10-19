@@ -9,11 +9,7 @@ use App\Http\Controllers\WasteTipController;
 use App\Http\Controllers\CenteCollecteController;
 use App\Http\Controllers\ItemPostController;
 use App\Http\Controllers\MeetingController;
-use App\Http\Controllers\AdminPostController;
 
-use App\Http\Controllers\CommunityController;
-use App\Http\Controllers\TaskController;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,27 +27,29 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    // Vérifiez le type d'utilisateur et redirigez vers la vue appropriée
     if (Auth::user()->utype === 'USR') {
-        return redirect()->route('layouts.user'); // Redirige vers la vue utilisateur
+        return redirect()->route('layouts.user');
     } elseif (Auth::user()->utype === 'ADMIN') {
-        return redirect()->route('layouts.adminLayout'); // Redirige vers la vue administrateur
+        return redirect()->route('layouts.adminLayout'); 
     }
 
+
+
+    
     return redirect()->route('home'); // Redirection par défaut (ajoutez une route ou une vue de votre choix)
+    return redirect()->route('home'); 
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Routes WasteTips
-Route::get('user-dashboard/WasteTips', [WasteTipController::class, 'index1'])->name('WasteTips.index');
+Route::get('user-dashboard/WasteTips', [\App\Http\Controllers\WasteTipController::class, 'index1'])->name('WasteTips.index');
 
-// Routes nécessitant une authentification
+
 Route::middleware('auth')->group(function () {
-    // Profil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // ItemPost
+  //PostItem
+    // Route::resource('item-posts', ItemPostController::class);
+    // Route::get('item-posts/user', [ItemPostController::class, 'userPosts'])->name('item-posts.user');
     Route::get('item-posts/user', [ItemPostController::class, 'userPosts'])->name('item-posts.user');
     Route::get('item-posts', [ItemPostController::class, 'index'])->name('item-posts.index');
     Route::get('item-posts/create', [ItemPostController::class, 'create'])->name('item-posts.create');
@@ -70,57 +68,63 @@ Route::middleware('auth')->group(function () {
     Route::get('meetings/{id}', [App\Http\Controllers\MeetingController::class, 'show'])->name('meetings.show');
 
 });
-//ADMIN  
+//ADMIN 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/itemposts', [App\Http\Controllers\AdminPostController::class, 'index'])->name('admin.itemposts.index');
     Route::delete('/admin/itemposts/{id}', [App\Http\Controllers\AdminPostController::class, 'destroy'])->name('admin.itemposts.destroy');
     Route::get('/admin/itemposts/{id}/edit', [App\Http\Controllers\AdminPostController::class, 'edit'])->name('admin.itemposts.edit');
     Route::put('/admin/itemposts/{id}', [App\Http\Controllers\AdminPostController::class, 'update'])->name('admin.itemposts.update');
+
+
 });
 
 
-    // Communities
-    Route::resource('communities', CommunityController::class);
-
-    // Tasks
-    Route::resource('tasks', TaskController::class);
 
 
 
-
-
-
-
-
-// Dashboard User & Admin routes
 Route::get('/user-dashboard', function () {
     return view('layouts.user');
 })->name('layouts.user');
+
+// Route::resource('user-dashboard/memberships', MembershipController::class);
+Route::get('user-dashboard/membership/create', [\App\Http\Controllers\MembershipController::class, 'create'])->name('membership.create');
+Route::post('user-dashboard/membership', [\App\Http\Controllers\MembershipController::class, 'store'])->name('membership.store');
+Route::get('user-dashboard/membership/{id}/edit', [\App\Http\Controllers\MembershipController::class, 'edit'])->name('membership.edit');
+Route::put('user-dashboard/membership/{membership}', [\App\Http\Controllers\MembershipController::class, 'update'])->name('membership.update');
+Route::delete('user-dashboard/membership/{id}', [\App\Http\Controllers\MembershipController::class, 'destroy'])->name('membership.destroy');
+Route::get('user-dashboard/membership', [\App\Http\Controllers\MembershipController::class, 'index'])->name('membership.index');
+Route::get('user-dashboard/membership/search', [\App\Http\Controllers\MembershipController::class, 'search'])->name('membership.search');
+
+
+
 
 Route::get('/admin-dashboard', function () {
     return view('layouts.adminLayout');
 })->name('layouts.adminLayout');
 
-// Membership routes
-Route::get('user-dashboard/membership/create', [MembershipController::class, 'create'])->name('membership.create');
-Route::post('user-dashboard/membership', [MembershipController::class, 'store'])->name('membership.store');
-Route::get('user-dashboard/membership/{id}/edit', [MembershipController::class, 'edit'])->name('membership.edit');
-Route::put('user-dashboard/membership/{membership}', [MembershipController::class, 'update'])->name('membership.update');
-Route::delete('user-dashboard/membership/{id}', [MembershipController::class, 'destroy'])->name('membership.destroy');
-Route::get('user-dashboard/membership', [MembershipController::class, 'index'])->name('membership.index');
-Route::get('user-dashboard/membership/search', [MembershipController::class, 'search'])->name('membership.search');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/user-dashboard', function () { return view('layouts.user');})->name('layouts.user');
+Route::get('/admin-dashboard', function () {return view('layouts.adminLayout');})->name('layouts.adminLayout');
 
-// Routes pour le dashboard admin
 Route::prefix('dashboard_admin')->group(function () {
     Route::get('/adviceType', [AdviceTypeController::class, 'index'])->name('admin.adviceType');
     Route::post('/adviceType', [AdviceTypeController::class, 'store'])->name('admin.adviceType');
     Route::delete('/adviceType/{id}', [AdviceTypeController::class, 'destroy'])->name('admin.adviceType.destroy');
     Route::put('/adviceType/{id}', [AdviceTypeController::class, 'update'])->name('admin.adviceType.update');
 
+    // Routes pour WasteTip
+    Route::get('/wasteTips', [WasteTipController::class, 'index'])->name('admin.WasteTips');
+    Route::post('/wasteTips', [WasteTipController::class, 'store'])->name('admin.WasteTips');
+    Route::delete('/wasteTips/{id}', [WasteTipController::class, 'destroy'])->name('wasteTips.destroy');  
+    Route::put('/wasteTips/{id}', [WasteTipController::class, 'update'])->name('admin.WasteTips.update');
+
     Route::get('/collectionCenter', [CenteCollecteController::class, 'index'])->name('admin.collectionCenter');
     Route::post('/collectionCenter', [CenteCollecteController::class, 'store'])->name('admin.collectionCenter');
     Route::delete('/collectionCenter/{id}', [CenteCollecteController::class, 'destroy'])->name('admin.collectionCenter.destroy');
     Route::put('/collectionCenter/{id}', [CenteCollecteController::class, 'update'])->name('admin.collectionCenter.update');
-});
+}
 
+
+    
+);
 require __DIR__.'/auth.php';
