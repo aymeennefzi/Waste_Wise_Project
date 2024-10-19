@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('advice_types', function (Blueprint $table) {
+        Schema::create('collectes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
+            $table->foreignId('chauffeur_id')->constrained()->onDelete('cascade');
+            $table->foreignId('centre_collecte_id')->constrained()->onDelete('cascade');
+            $table->dateTime('date_heure');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('advice_types');
+        Schema::dropIfExists('collectes');
     }
 };

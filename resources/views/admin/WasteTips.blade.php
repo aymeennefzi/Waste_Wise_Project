@@ -41,8 +41,9 @@
     </div>
 </form>
 </div>
-    <!-- Colonne pour l'image -->
-    <div class="col-md-6 text-center">
+
+            <!-- Colonne pour l'image -->
+            <div class="col-md-6 text-center">
                 <h6>"Un geste de recyclage aujourd'hui est un acte de préservation pour demain"</h6>
                 <img src="{{ asset('Back_office/assets/images/Waste.png') }}" alt="Description of image" class="img-fluid w-50"> <!-- Ajuste w-75 selon tes préférences -->
             </div>

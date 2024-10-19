@@ -13,7 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('centre_collectes', function (Blueprint $table) {
+            $table->id();
+            $table->string('nom');
+            $table->string('adresse');
+            $table->integer('capacite');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('centre_collectes');
     }
 };

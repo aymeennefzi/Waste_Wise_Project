@@ -105,8 +105,12 @@
 			<nav class="navbar navbar-expand-xl" style="background-color: #396084">
 				<div class="container">
 					<!-- Logo START -->
-					<a class="navbar-brand" href="index.html"><img src="{{ asset('LandingPage/assets/img/logo/loder1.png') }}" class="logo-img" alt="logo" width="40" height="auto"></a>
+					<a class="navbar-brand d-flex align-items-center" href="index.html">
+						<img src="{{ asset('LandingPage/assets/img/logo/loder1.png') }}" class="logo-img" alt="logo" width="40" height="auto">
+						<span class="ms-2" style="font-size: 24px; color: #206B75;">Waste wise</span> <!-- Ajoutez votre nom ici -->
+					</a>
 					<!-- Logo END -->
+
 					<!-- Responsive navbar toggler -->
 					<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-animation">
@@ -118,7 +122,9 @@
 
 					<!-- Profile START -->
 					<div class="dropdown ms-1 ms-lg-0">
-						<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false"><img class="avatar-img rounded-circle" src="{{ asset(Auth::user()->profile_photo_path) }}"alt="avatar"></a>
+					<span class="h6 m-3" style="font-size: 18px; color: #404040; margin-left: 10px;">{{ Auth::user()->name }}</span>
+
+					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false"><img class="avatar-img rounded-circle" src="{{ asset(Auth::user()->profile_photo_path) }}"alt="avatar"></a>
 						<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
 							<!-- Profile info -->
 							<li class="px-3 mb-3">
@@ -127,6 +133,7 @@
 									<div class="avatar me-3">
 										<img class="avatar-img rounded-circle shadow" src="{{ asset(Auth::user()->profile_photo_path) }}" alt="avatar">
 									</div>
+
 									<div>
 										<a class="h6" href="#">{{ Auth::user()->name }}</a>
 										<p class="small m-0">
@@ -176,7 +183,9 @@
 								</div>
 							</li>
 							<!-- Dark mode options END-->
+							 
 						</ul>
+
 					</div>
 					<!-- Profile START -->
 				</div>
@@ -211,15 +220,22 @@
 								<div class="bg-dark border rounded-3 pb-0 p-3 w-100">
 									<!-- Dashboard menu -->
 									<div class="list-group list-group-dark list-group-borderless">
-										<a class="list-group-item"><i class="fas fa-address-card fa-fw me-2"></i>Event<a>
-										<a class="list-group-item"> <i class="fas fa-plus fa-fw"></i>Community</a>
-										<a class="list-group-item" href="/user-dashboard/membership">
+    <a class="list-group-item" href="#"><i class="fas fa-calendar-alt fa-fw me-2"></i>Event</a>
+    <a class="list-group-item" href="{{ route('communities.index') }}"><i class="fas fa-users fa-fw me-2"></i>Community</a>
+	<a class="list-group-item" href="/user-dashboard/membership">
 											<i class="fas fa-plus fa-fw"></i> Membership
-										</a>										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>
-										<a class="list-group-item"><i class="fas fa-plus fa-fw"></i>Waste tips</a>
-										<a class="list-group-item"><i class="fas fa-stream"></i>Donnation</a>
-										<a class="list-group-item text-danger bg-danger-soft-hover"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
-									</div>
+										</a>		
+    <a class="list-group-item" href="#"><i class="fas fa-recycle fa-fw me-2"></i>Recycle Center</a>
+    <a class="list-group-item" href="/user-dashboard/WasteTips"><i class="fas fa-plus fa-fw"  ></i>Waste tips</a>
+
+										</a>
+    <a class="list-group-item" href="#"><i class="fas fa-donate fa-fw me-2"></i>Donation</a>
+    <a class="list-group-item" href="{{ route('tasks.index') }}">
+        <i class="fas fa-tasks fa-fw me-2"></i>Tasks
+    </a>
+    <a class="list-group-item text-danger bg-danger-soft-hover" href="#"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
+</div>
+
 								</div>	
 							</div>
 						</div>
