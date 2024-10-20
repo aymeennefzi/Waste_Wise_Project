@@ -20,7 +20,7 @@
         @foreach($communities as $community)
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow" style="transition: transform 0.3s ease; cursor: pointer; border-radius: 10px;">
-                <img src="{{ Storage::url($community->image_url) }}" class="card-img-top" alt="{{ $community->name }}" style="object-fit: cover; height: 200px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                <img src="{{ asset('storage/' . $community->image_url) }}" class="card-img-top" alt="{{ $community->name }}" style="object-fit: cover; height: 200px; border-top-left-radius: 10px; border-top-right-radius: 10px;">  
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title text-dark">{{ $community->name }}</h5>
                     <p class="card-text flex-grow-1 text-muted">{{ $community->description }}</p>

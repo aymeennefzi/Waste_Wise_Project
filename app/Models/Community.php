@@ -1,4 +1,6 @@
 <?php
+// app/Models/Community.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,9 +16,9 @@ class Community extends Model
     {
         return $this->hasMany(Membership::class, 'communityId');
     }
-    public function tasks()
+
+    public function tasksc()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(TaskC::class);
     }
 }
-

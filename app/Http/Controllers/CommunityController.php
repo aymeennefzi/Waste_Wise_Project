@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Community; // Import the Community model
-use App\Models\Task; // Importer le modèle Task
+use App\Models\TaskC; // Importer le modèle Task
 
 
 class CommunityController extends Controller
@@ -17,7 +17,7 @@ class CommunityController extends Controller
     public function index()
     {
         $communities = Community::all(); // Retrieve all communities from the database
-        return view('communities.index', compact('communities')); 
+        return view('communities.index', compact('communities'));
     }
 
     /**
@@ -39,38 +39,34 @@ class CommunityController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the incoming request data
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image validation
         ]);
 
-        // Création de la communauté
+        // Create a new Community object
         $community = new Community();
         $community->name = $request->input('name');
         $community->description = $request->input('description');
-        $community->image_url = $request->input('image_url');
 
-
-        // Gestion de l'image
+        // Handle the image file upload
         if ($request->hasFile('image_url')) {
-            // Générer un nom de fichier unique
+            // Generate a unique filename for the image
             $fileName = time() . '_' . $request->file('image_url')->getClientOriginalName();
-            // Enregistrer l'image dans le dossier 'uploads/community' dans 'storage/app/public'
+            // Save the image to the 'uploads/community' folder in the 'storage/app/public' directory
             $filePath = $request->file('image_url')->storeAs('uploads/community', $fileName, 'public');
-            // Mettre à jour l'URL de l'image dans l'objet $community
+            // Update the image URL in the community object
             $community->image_url = $filePath;
         }
-       
-       
-    //     RecyclingCenter::create($validated);
-    //     return redirect()->route('recycling_centers.index')->with('success', 'Centre de recyclage ajouté avec succès.');
-    // }
 
-
+        // Save the community to the database
         $community->save();
 
-        return redirect()->route('communities.index')->with('success', 'Community created successfully.');}
+        // Redirect to the communities index page with a success message
+        return redirect()->route('communities.index')->with('success', 'Community created successfully.');
+    }
 
     /**
      * Display the specified resource.
@@ -80,7 +76,7 @@ class CommunityController extends Controller
      */
     public function show($id)
     {
-        $community = Community::with('tasks')->findOrFail($id);
+        $community = Community::with('tasksc')->findOrFail($id);
         return view('communities.show', compact('community'));//
     }
 
@@ -112,23 +108,23 @@ class CommunityController extends Controller
             'description' => 'required|string',
             'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ]);
-    
+
         // Mise à jour des informations de la communauté
         $community->name = $validated['name'];
         $community->description = $validated['description'];
 
-    
+
         // Gestion de l'image si une nouvelle est uploadée
         if ($request->hasFile('image_url')) {
             $fileName = time() . '_' . $request->file('image_url')->getClientOriginalName();
             $filePath = $request->file('image_url')->storeAs('uploads/community', $fileName, 'public');
             $community->image_url = $filePath; // Mettez à jour le chemin de l'image dans la base de données
         }
-    
+
         // Sauvegarder les changements
         $community->save();
-    
-    
+
+
         // Redirection avec un message de succès
         return redirect()->route('communities.show', $community->id)->with('success', 'Communauté mise à jour avec succès.');
     }
@@ -155,7 +151,7 @@ class CommunityController extends Controller
 }
 public function showDetails($id)
 {
-    $community = Community::with('tasks')->findOrFail($id);
+    $community = Community::with('tasksc')->findOrFail($id);
     return view('communities.details', compact('community'));
 }
 

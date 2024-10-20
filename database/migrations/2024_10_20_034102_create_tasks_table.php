@@ -15,13 +15,16 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('community_id')->constrained()->onDelete('cascade'); // Relie à la communauté
-            $table->string('title'); // Titre de la tâche
-            $table->text('description')->nullable(); // Description facultative
-            $table->dateTime('due_date')->nullable(); // Date d'échéance
-            $table->enum('status', ['pending', 'completed'])->default('pending'); // État de la tâche
-            
+            $table->unsignedBigInteger('event_id');
+            $table->string('task_type');
+            $table->text('description');
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+            $table->integer('estimated_duration')->nullable();
+            $table->decimal('cost_estimate', 10, 2)->nullable();
             $table->timestamps();
+
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
         });
     }
 

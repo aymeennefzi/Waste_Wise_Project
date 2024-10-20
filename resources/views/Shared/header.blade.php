@@ -26,10 +26,10 @@
 								</div>
 								<div class="media-body">
 									<h6 class="mt-2 user-title">
-									{{ Auth::user()->name }}									
+									{{-- {{ Auth::user()->name }}									 --}}
 								</h6>
 								<p class="user-subtitle">
-									{{ Auth::user()->email }}									
+									{{-- {{ Auth::user()->email }}									 --}}
 								</p>
 								</div>
 							</div>

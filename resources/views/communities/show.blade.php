@@ -21,37 +21,23 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th><i class="fas fa-heading"></i> Titre</th>
-                        <th><i class="fas fa-align-left"></i> Description</th>
-                        <th><i class="fas fa-calendar-alt"></i> Date d'échéance</th>
-                        <th><i class="fas fa-check-circle"></i> Statut</th>
+                        <th>Task Name</th>
+                        <th>Task Description</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($community->tasks as $task)
+                    @if($community->tasksc)
+                        @foreach($community->tasksc as $task)
+                            <tr>
+                                <td>{{ $task->title }}</td>
+                                <td>{{ $task->description }}</td>
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            <td>{{ $task->title }}</td>
-                            <td>{{ $task->description }}</td>
-                            <td>{{ $task->due_date ? $task->due_date->format('d/m/Y H:i') : 'Non définie' }}</td>
-                            <td>
-                                @if ($task->status === 'completed')
-                                    <span style="color: green;">
-                                        <i class="fas fa-check-circle"></i> {{ ucfirst($task->status) }}
-                                    </span>
-                                @elseif ($task->status === 'pending')
-                                    <span style="color: red;">
-                                        <i class="fas fa-clock"></i> {{ ucfirst($task->status) }}
-                                    </span>
-                                @else
-                                    <span>{{ ucfirst($task->status) }}</span>
-                                @endif
-                            </td>
+                            <td colspan="2">No tasks found.</td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="text-center">Aucune tâche associée à cette communauté.</td>
-                        </tr>
-                    @endforelse
+                    @endif
                 </tbody>
             </table>
         </div>

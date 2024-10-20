@@ -12,8 +12,19 @@
     <a href="{{ route('dashboard') }}">
         <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
     </a>
-</li>
 
+</li>
+<li>
+<a href="{{ route('donations.admin.index') }}">
+<i class="zmdi zmdi-money"></i>
+ <span>Donations</span>
+    </a>
+</li>
+<li>
+<a href="{{ route('admin.campaigns.index') }}">
+<i class="zmdi zmdi-assignment"></i><span>Campaigns</span>
+    </a>
+</li>
 
       <li>
         <a  href="{{ route('admin.adviceType') }}" >
@@ -58,8 +69,25 @@
       </li>
 
       <li>
-        <a href="login.html" target="_blank">
-          <i class="zmdi zmdi-lock"></i> <span>Login</span>
+        <a href="{{ route('events.index') }}">
+            <i class="zmdi zmdi-calendar"></i> <span>Events</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('taskse.index') }}">
+            <i class="zmdi zmdi-check-square"></i> <span>Event's Tasks</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{{ route('recycling_centers.admin')}}">
+          <i class="zmdi zmdi-grid" ></i> <span>recycling_centers</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ route('materials.index')}}">
+          <i class="zmdi zmdi-grid" ></i> <span>materials</span>
         </a>
       </li>
 
@@ -75,6 +103,6 @@
       <li><a href="javaScript:void();"><i class="zmdi zmdi-share text-info"></i> <span>Information</span></a></li>
 
     </ul>
-   
+
    </div>
    <!--End sidebar-wrapper-->

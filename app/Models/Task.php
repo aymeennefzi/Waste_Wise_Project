@@ -10,18 +10,18 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'community_id',
-        'title',
+        'event_id',
+        'task_type',
         'description',
-        'due_date',
-        'status',
-    ];
-    protected $casts = [
-        'due_date' => 'datetime',
+        'start_time',
+        'end_time',
+        'estimated_duration',
+        'cost_estimate'
     ];
 
-    public function community()
+    public function event()
     {
-        return $this->belongsTo(Community::class);
+        return $this->belongsTo(Event::class);
     }
+
 }
