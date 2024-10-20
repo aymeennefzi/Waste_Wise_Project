@@ -9,7 +9,9 @@ use App\Http\Controllers\WasteTipController;
 use App\Http\Controllers\ItemPostController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\AdminPostController;
-
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\RecyclingCenterController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/user-dashboard/recycling_centers', [RecyclingCenterController::class, 'index'])->name('recycling_centers.index');
+    Route::get('/admin-dashboard/recycling_centers', [RecyclingCenterController::class, 'index'])->name('recycling_centers.admin');
   //PostItem
     // Route::resource('item-posts', ItemPostController::class);
     // Route::get('item-posts/user', [ItemPostController::class, 'userPosts'])->name('item-posts.user');
@@ -94,7 +98,25 @@ Route::get('user-dashboard/membership', [\App\Http\Controllers\MembershipControl
 Route::get('user-dashboard/membership/search', [\App\Http\Controllers\MembershipController::class, 'search'])->name('membership.search');
 
 
-
+Route::prefix('recycling_centers')->group(function () {
+    Route::get('/create', [RecyclingCenterController::class, 'create'])->name('recycling_centers.create');
+    Route::post('/', [RecyclingCenterController::class, 'store'])->name('recycling_centers.store');
+    Route::get('/{id}/edit', [RecyclingCenterController::class, 'edit'])->name('recycling_centers.edit');
+    Route::put('/{id}', [RecyclingCenterController::class, 'update'])->name('recycling_centers.update');
+    Route::delete('/{id}', [RecyclingCenterController::class, 'destroy'])->name('recycling_centers.destroy');
+});
+Route::prefix('admin-dashboard/materials')->group(function () {
+    Route::get('/', [MaterialController::class, 'index'])->name('materials.index');
+    Route::get('/create', [MaterialController::class, 'create'])->name('materials.create');
+    Route::post('/', [MaterialController::class, 'store'])->name('materials.store');
+    Route::get('/{id}/edit', [MaterialController::class, 'edit'])->name('materials.edit');
+    Route::put('/{id}', [MaterialController::class, 'update'])->name('materials.update');
+    Route::delete('/{id}', [MaterialController::class, 'destroy'])->name('materials.destroy');
+});
+Route::prefix('user-dashboard/materials')->group(function () {
+    Route::get('/', [MaterialController::class, 'index'])->name('materials.user');
+   
+});
 
 Route::get('/admin-dashboard', function () {
     return view('layouts.adminLayout');

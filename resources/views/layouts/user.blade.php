@@ -213,6 +213,8 @@
 									<div class="list-group list-group-dark list-group-borderless">
 										<a class="list-group-item"><i class="fas fa-address-card fa-fw me-2"></i>Event<a>
 										<a class="list-group-item"> <i class="fas fa-plus fa-fw"></i>Community</a>
+										<a class="list-group-item" href="{{ route('recycling_centers.index')}}"><i class="fas fa-stream"></i>Recycle Center</a>
+										<a class="list-group-item" href="{{ route('materials.user')}}"><i class="fas fa-stream"></i>Materials</a>
 										<a class="list-group-item" href="/user-dashboard/membership">
 											<i class="fas fa-plus fa-fw"></i> Membership
 										</a>										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>

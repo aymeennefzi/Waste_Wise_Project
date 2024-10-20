@@ -51,6 +51,16 @@
           <i class="zmdi zmdi-lock"></i> <span>Login</span>
         </a>
       </li>
+      <li>
+        <a href="{{ route('recycling_centers.admin')}}">
+          <i class="zmdi zmdi-grid" ></i> <span>recycling_centers</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ route('materials.index')}}">
+          <i class="zmdi zmdi-grid" ></i> <span>materials</span>
+        </a>
+      </li>
 
        <li>
         <a href="register.html" target="_blank">
