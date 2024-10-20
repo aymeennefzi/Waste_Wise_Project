@@ -14,6 +14,8 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\RecyclingCenterController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DonationController;
+use App\Http\Controllers\CampaignController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +72,34 @@ Route::middleware('auth')->group(function () {
     Route::patch('meetings/{meeting}/refuse', [App\Http\Controllers\MeetingController::class, 'refuse'])->name('meetings.refuse');
     Route::get('meetings/{id}', [App\Http\Controllers\MeetingController::class, 'show'])->name('meetings.show');
 
+
+    //donations
+    Route::get('/donations', [DonationController::class, 'userIndex'])->name('donations.user.index');
+    Route::get('/donations/create', [DonationController::class, 'userCreate'])->name('donations.user.create');
+    Route::post('/donations', [DonationController::class, 'userStore'])->name('donations.user.store');
+    Route::get('/donations/{id}/edit', [DonationController::class, 'userEdit'])->name('donations.user.edit');
+    Route::put('/donations/{id}', [DonationController::class, 'userUpdate'])->name('donations.user.update');
+    Route::post('/donations/{id}/cancel', [DonationController::class, 'cancel'])->name('donations.user.cancel');
+    //compaigns
+    Route::get('/campaigns', [CampaignController::class, 'userIndex'])->name('user.campaigns.index'); // Show list of campaigns
+    Route::get('/campaigns/{id}', [CampaignController::class, 'show'])->name('user.campaigns.show'); // Show a single campaign
+
+});
+
+Route::middleware('auth')->group(function () {
+
+    // donations
+    Route::get('/admin/donations', [DonationController::class, 'adminIndex'])->name('donations.admin.index');
+    Route::get('/admin/donations/{id}/edit', [DonationController::class, 'edit'])->name('donations.admin.edit'); // This should be the correct route
+    Route::put('/admin/donations/{id}', [DonationController::class, 'update'])->name('donations.admin.update');
+    Route::delete('/admin/donations/{id}', [DonationController::class, 'destroy'])->name('donations.destroy');
+    //compaigns
+    Route::get('/admin/campaigns', [CampaignController::class, 'index'])->name('admin.campaigns.index'); // Admin shows all campaigns
+    Route::get('/admin/campaigns/create', [CampaignController::class, 'create'])->name('admin.campaigns.create'); // Admin creates a campaign
+    Route::post('/admin/campaigns', [CampaignController::class, 'store'])->name('admin.campaigns.store'); // Store the campaign
+    Route::get('/admin/campaigns/{id}/edit', [CampaignController::class, 'edit'])->name('admin.campaigns.edit'); // Admin edits a campaign
+    Route::put('/admin/campaigns/{id}', [CampaignController::class, 'update'])->name('admin.campaigns.update'); // Update the campaign
+    Route::delete('/admin/campaigns/{id}', [CampaignController::class, 'destroy'])->name('admin.campaigns.destroy'); // Delete the campaign
 });
 //ADMIN
 Route::middleware(['auth', 'admin'])->group(function () {
