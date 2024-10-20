@@ -10809,6 +10809,13 @@ textarea.form-control-lg {
   height: 120px; /* Changez cette valeur selon votre besoin */
   object-fit: cover; /* Assurez-vous que l'image s'adapte à la taille définie */
 }
+/* Personnalisation de la notification Toastr */
+.toast-success {
+  background-color: green; /* Fond vert */
+  color: white; /* Texte blanc */
+  font-weight: bold; /* Écriture en gras */
+}
+
 
 .pagination .page-item.active .page-link {
   background-color: #206B75; /* Couleur de fond */

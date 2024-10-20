@@ -72,6 +72,8 @@
 		<link rel="stylesheet" type="text/css" href="{{ asset('front_office/assets/css/style.css')}}" />
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-7N7LGGGWT1"></script>
+		<!-- <script src="https://js.pusher.com/7.0/pusher.min.js"></script> -->
+
 		<script>
 			window.dataLayer = window.dataLayer || [];
 			function gtag() {
@@ -97,8 +99,76 @@
 		<!------------------------------------- Template Css Styles ----------------------------------------------->
 		<link rel="stylesheet" href=".{{ asset('front_office/assets/Template/css/style.css')}}" type="text/css">
 		<!-------------------------------------End Template Css Styles ----------------------------------------------->
+		 <!-- CSS de Toastr -->
+		 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+
+<!-- JS de Pusher -->
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
+<!-- Assurez-vous que jQuery est inclus si vous l'utilisez -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JS de Toastr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+        // Activer le log dans la console pour Pusher
+        Pusher.logToConsole = true;
+
+        // Initialiser Pusher avec votre clé et le cluster
+        var pusher = new Pusher('d384ed014b78d9e69093', {
+            cluster: 'eu', // Mettez à jour avec le cluster que vous utilisez
+            forceTLS: true
+        });
+
+        // S'abonner au canal
+        var channel = pusher.subscribe('wastetips');
+
+        // Écouter l'événement de création de WasteTip
+        channel.bind('App\\Events\\PostCreated', function(data) {
+            console.log(data); // Vérifiez la structure des données
+            if (data && data.title) {
+                // Afficher la notification Toastr
+                toastr.success('Un nouveau wastetip a été créé : ' + data.title, 'Nouveau WasteTip', {
+                    positionClass: 'toast-top-right',
+                    timeOut: 6000, // Durée d'affichage de la notification
+                    extendedTimeOut: 1000, // Durée d'affichage à l'extension
+                    progressBar: true,
+                    closeButton: true,
+                    toastClass: 'toast-success',
+                });
+            } else {
+                console.error('Invalid data structure received:', data);
+            }
+        });
+    </script>
+
+    <style>
+        /* Personnalisation de la notification Toastr */
+        .toast-success {
+            background-color: green; /* Fond vert */
+            color: white; /* Texte blanc */
+            font-weight: bold; /* Écriture en gras */
+        }
+    </style>
 	</head>
+
 	<body>
+	<!-- <script>
+    // Configuration de Pusher avec vos clés
+		Pusher.logToConsole = true;
+
+		var pusher = new Pusher('d384ed014b78d9e69093', {
+			cluster: 'eu', // Utilisez votre cluster
+			encrypted: true
+		});
+
+		var channel = pusher.subscribe('wastetips');
+		channel.bind('App\\Events\\PostCreated', function(data) {
+			alert('Un nouveau wastetip a été créé : ' + data.title);
+			// Vous pouvez également mettre à jour la liste des wastetips sur la page sans recharger
+		});
+	</script> -->
+
 		<!-- Header START -->
 		<header class="navbar-light navbar-sticky">
 			<!-- Logo Nav START -->
@@ -267,5 +337,6 @@
 		<script src="{{ asset('front_office/assets/vendor/stepper/js/bs-stepper.min.js')}}"></script>
 		<!-- Template Functions -->
 		<script src="{{ asset('front_office/assets/js/functions.js')}}"></script>
+		
 	</body>
 </html>

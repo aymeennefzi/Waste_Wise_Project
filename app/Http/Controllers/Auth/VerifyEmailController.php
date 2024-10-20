@@ -25,4 +25,18 @@ class VerifyEmailController extends Controller
 
         return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
     }
+    protected function redirectBasedOnRole(): RedirectResponse 
+    {
+        $user = Auth::user();
+    
+        switch ($user->utype) {
+            case 'USR':
+                return redirect()->route('layouts.user');
+            case 'ADMIN':
+                return redirect()->route('layouts.adminLayout');
+            default:
+                return redirect()->intended(RouteServiceProvider::HOME);
+        }
+    }
+    
 }

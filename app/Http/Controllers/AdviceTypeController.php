@@ -16,21 +16,26 @@ class AdviceTypeController extends Controller
     }
     public function store(Request $request)
     {
-        // Valider les données du formulaire
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'name' => 'required|string|min:3|max:255',
+            'description' => 'required|string|min:10|max:500',
+        ], [
+            'name.required' => 'Le nom est obligatoire.',
+            'name.min' => 'Le nom doit contenir au moins 3 caractères.',
+            'name.max' => 'Le nom ne doit pas dépasser 255 caractères.',
+            'description.required' => 'La description est obligatoire.',
+            'description.min' => 'La description doit contenir au moins 10 caractères.',
+            'description.max' => 'La description ne doit pas dépasser 500 caractères.',
         ]);
 
-        // Créer un nouveau AdviceType
         AdviceType::create([
             'name' => $request->name,
             'description' => $request->description,
         ]);
 
-        // Rediriger vers la liste avec un message de succès
         return redirect()->route('admin.adviceType')->with('success', 'Advice Type added successfully!');
     }
+
  
 
     public function destroy($id)
@@ -45,8 +50,15 @@ class AdviceTypeController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
+            'name' => 'required|string|min:3|max:255',
+            'description' => 'required|string|min:10|max:1000',
+        ], [
+            'name.required' => 'Le nom est obligatoire.',
+            'name.min' => 'Le nom doit contenir au moins 3 caractères.',
+            'name.max' => 'Le nom ne doit pas dépasser 255 caractères.',
+            'description.required' => 'La description est obligatoire.',
+            'description.min' => 'La description doit contenir au moins 10 caractères.',
+            'description.max' => 'La description ne doit pas dépasser 1000 caractères.',
         ]);
     
         $adviceType = AdviceType::findOrFail($id);
@@ -56,6 +68,7 @@ class AdviceTypeController extends Controller
     
         return redirect()->route('admin.adviceType')->with('success', 'Advice Type updated successfully!');
     }
+    
     
 
 

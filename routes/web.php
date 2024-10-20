@@ -9,6 +9,10 @@ use App\Http\Controllers\WasteTipController;
 use App\Http\Controllers\CenteCollecteController;
 use App\Http\Controllers\ItemPostController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\GoogleController;
+
+
 
 
 /*
@@ -26,23 +30,31 @@ Route::get('/', function () {
     return view('HomePage.content');
 });
 
+Route::get('auth/facebook',[FacebookController::class,'facebookpage']);
+Route::get('auth/facebook/callback',[FacebookController::class,'facebookredirect']);
+
+Route::get('auth/google',[GoogleController::class,'googlepage']);
+Route::get('auth/google/callback',[GoogleController::class,'googleredirect']);
+
+Route::get('/pusher',function(){
+    return view('pusher');
+});
+
+
+
 Route::get('/dashboard', function () {
     if (Auth::user()->utype === 'USR') {
         return redirect()->route('layouts.user');
     } elseif (Auth::user()->utype === 'ADMIN') {
         return redirect()->route('layouts.adminLayout'); 
     }
-
-
-
-    
     return redirect()->route('home'); // Redirection par défaut (ajoutez une route ou une vue de votre choix)
     return redirect()->route('home'); 
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('user-dashboard/WasteTips', [\App\Http\Controllers\WasteTipController::class, 'index1'])->name('WasteTips.index');
 
-
+ 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -99,7 +111,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/user-dashboard', function () { return view('layouts.user');})->name('layouts.user');
 Route::get('/admin-dashboard', function () {return view('layouts.adminLayout');})->name('layouts.adminLayout');
 
-Route::prefix('dashboard_admin')->group(function () {
+Route::prefix('dashboard_admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/adviceType', [AdviceTypeController::class, 'index'])->name('admin.adviceType');
     Route::post('/adviceType', [AdviceTypeController::class, 'store'])->name('admin.adviceType');
     Route::delete('/adviceType/{id}', [AdviceTypeController::class, 'destroy'])->name('admin.adviceType.destroy');

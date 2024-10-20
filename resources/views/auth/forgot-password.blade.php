@@ -41,32 +41,39 @@
 							<p class="pb-2">
 								Please enter your email address. You will receive a link to create a new password via email.
 							</p>
-							@if (session('status'))
-							<div class="mb-4 font-medium text-sm text-green-600">
-								{{ session('status') }}
-							</div>
-							@endif
-							<form>
+
+							<!-- Affichage du statut -->
+							<x-auth-session-status class="mb-4 mt-2" :status="session('status')" />
+
+							<!-- Formulaire -->
+							<form class="mt-sm-4 text-start" method="POST" action="{{ route('password.email') }}">
+								@csrf
 								<div class="form-group">
-									<label for="email" value="{{ __('Email') }}">Email Address</label>
-									@csrf
+									<label for="email" class="form-label">Email Address</label>
 									<div class="position-relative has-icon-right">
 										<input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" class="form-control input-shadow" placeholder="Email Address">
 										<div class="form-control-position">
 											<i class="icon-envelope-open"></i>
 										</div>
 									</div>
+									<x-input-error :messages="$errors->get('email')" class="mt-2" />
 								</div>
-								<button type="button" class="btn btn-light btn-block mt-3">{{ __('Email Password Reset Link') }}</button>
+								<div class="mb-3 text-center">
+                                    <p>Back to <a href="{{ route('login') }}">Sign in</a></p>
+                                </div>
+								
+								<button type="submit" class="btn btn-light btn-block mt-3">{{ __('Email Password Reset Link') }}</button>
 							</form>
+							<!-- Fin du formulaire -->
 						</div>
 					</div>
 				</div>
 			</div>
 			<!--Start Back To Top Button-->
-			<a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
+			<a href="javascript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
 			<!--End Back To Top Button-->
 		</div>
+
 		<!--wrapper-->
 		<!-- Bootstrap core JavaScript-->
 		<script src="{{ asset('Back_office/assets/js/jquery.min.js')}}"></script>
