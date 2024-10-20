@@ -212,12 +212,15 @@
 									<!-- Dashboard menu -->
 									<div class="list-group list-group-dark list-group-borderless">
 										<a class="list-group-item"><i class="fas fa-address-card fa-fw me-2"></i>Event<a>
-										<a class="list-group-item"> <i class="fas fa-plus fa-fw"></i>Community</a>
+										<a class="list-group-item" href="{{ route('communities.user.index') }}">
+    <i class="fas fa-users fa-fw me-2"></i> Community
+</a>
 										<a class="list-group-item" href="/user-dashboard/membership">
 											<i class="fas fa-plus fa-fw"></i> Membership
 										</a>										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>
 										<a class="list-group-item"><i class="fas fa-plus fa-fw"></i>Waste tips</a>
 										<a class="list-group-item"><i class="fas fa-stream"></i>Donnation</a>
+										
 										<a class="list-group-item text-danger bg-danger-soft-hover"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
 									</div>
 								</div>	

@@ -9,6 +9,10 @@ use App\Http\Controllers\WasteTipController;
 use App\Http\Controllers\ItemPostController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\AdminPostController;
+use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\TaskController;
+
+
 
 
 /*
@@ -63,14 +67,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('meetings/{meeting}/accept', [App\Http\Controllers\MeetingController::class, 'accept'])->name('meetings.accept');
     Route::patch('meetings/{meeting}/refuse', [App\Http\Controllers\MeetingController::class, 'refuse'])->name('meetings.refuse');
     Route::get('meetings/{id}', [App\Http\Controllers\MeetingController::class, 'show'])->name('meetings.show');
+    Route::get('/communities/user', [CommunityController::class, 'userIndex'])->name('communities.user.index');
+    Route::get('communities/{id}/details', [CommunityController::class, 'showDetails'])->name('communities.details');
 
 });
 //ADMIN 
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'ADMIN'])->group(function () {
     Route::get('/admin/itemposts', [App\Http\Controllers\AdminPostController::class, 'index'])->name('admin.itemposts.index');
     Route::delete('/admin/itemposts/{id}', [App\Http\Controllers\AdminPostController::class, 'destroy'])->name('admin.itemposts.destroy');
     Route::get('/admin/itemposts/{id}/edit', [App\Http\Controllers\AdminPostController::class, 'edit'])->name('admin.itemposts.edit');
     Route::put('/admin/itemposts/{id}', [App\Http\Controllers\AdminPostController::class, 'update'])->name('admin.itemposts.update');
+  
 
 
 });
@@ -114,7 +121,10 @@ Route::prefix('dashboard_admin')->group(function () {
     Route::post('/wasteTips', [WasteTipController::class, 'store'])->name('admin.WasteTips');
     Route::delete('/wasteTips/{id}', [WasteTipController::class, 'destroy'])->name('wasteTips.destroy');  
     Route::put('/wasteTips/{id}', [WasteTipController::class, 'update'])->name('admin.WasteTips.update');
+    Route::resource('/communities', CommunityController::class);
 
+    Route::resource('/tasks', TaskController::class);
+    
 }
     
 );

@@ -8,11 +8,15 @@ class Community extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'creatorId'];
+    protected $fillable = ['name', 'description', 'image_url'];
 
     public function memberships()
     {
         return $this->hasMany(Membership::class, 'communityId');
+    }
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 }
 

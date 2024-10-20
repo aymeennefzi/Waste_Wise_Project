@@ -26,6 +26,17 @@
           <i class="zmdi zmdi-format-list-bulleted"></i> <span>Waste tips</span>
         </a>
       </li>
+      <li>
+    <a href="{{ route('communities.index') }}">
+        <i class="zmdi zmdi-group"></i> <span>Communities</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('tasks.index') }}">
+        <i class="zmdi zmdi-assignment"></i> <span>Tasks</span>
+    </a>
+</li>
+
 
       <li>
         <a href="{{ route('admin.itemposts.index') }}">

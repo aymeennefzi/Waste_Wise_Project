@@ -1,9 +1,10 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCommunitiesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -15,8 +16,8 @@ class CreateCommunitiesTable extends Migration
         Schema::create('communities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->unsignedBigInteger('creatorId');
+            $table->text('description');
+            $table->string('image_url')->nullable();
             $table->timestamps();
         });
     }
@@ -30,4 +31,4 @@ class CreateCommunitiesTable extends Migration
     {
         Schema::dropIfExists('communities');
     }
-}
+};
