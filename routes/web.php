@@ -9,8 +9,10 @@ use App\Http\Controllers\WasteTipController;
 use App\Http\Controllers\ItemPostController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\AdminPostController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\RecyclingCenterController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -32,14 +34,14 @@ Route::get('/dashboard', function () {
     if (Auth::user()->utype === 'USR') {
         return redirect()->route('layouts.user');
     } elseif (Auth::user()->utype === 'ADMIN') {
-        return redirect()->route('layouts.adminLayout'); 
+        return redirect()->route('layouts.adminLayout');
     }
 
 
 
-    
+
     return redirect()->route('home'); // Redirection par défaut (ajoutez une route ou une vue de votre choix)
-    return redirect()->route('home'); 
+    return redirect()->route('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -69,7 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::get('meetings/{id}', [App\Http\Controllers\MeetingController::class, 'show'])->name('meetings.show');
 
 });
-//ADMIN 
+//ADMIN
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/itemposts', [App\Http\Controllers\AdminPostController::class, 'index'])->name('admin.itemposts.index');
     Route::delete('/admin/itemposts/{id}', [App\Http\Controllers\AdminPostController::class, 'destroy'])->name('admin.itemposts.destroy');
@@ -115,8 +117,20 @@ Route::prefix('admin-dashboard/materials')->group(function () {
 });
 Route::prefix('user-dashboard/materials')->group(function () {
     Route::get('/', [MaterialController::class, 'index'])->name('materials.user');
-   
+
 });
+
+
+
+
+Route::prefix('events')->group(function () {
+    Route::get('/newevents', [EventController::class, 'index2'])->name('events.index2');
+});
+
+Route::prefix('tasks')->group(function () {
+    Route::get('/newtasks', [TaskController::class, 'index2'])->name('tasks.index2');
+});
+
 
 Route::get('/admin-dashboard', function () {
     return view('layouts.adminLayout');
@@ -130,14 +144,31 @@ Route::prefix('dashboard_admin')->group(function () {
     Route::post('/adviceType', [AdviceTypeController::class, 'store'])->name('admin.adviceType');
     Route::delete('/adviceType/{id}', [AdviceTypeController::class, 'destroy'])->name('admin.adviceType.destroy');
     Route::put('/adviceType/{id}', [AdviceTypeController::class, 'update'])->name('admin.adviceType.update');
+    Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+    Route::get('/createTasksView', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('/{task}/editTask', [TaskController::class, 'edit'])->name('tasks.editTask');
+    Route::put('/{task}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::delete('/{task}', [TaskController::class, 'destroy'])->name('tasks.destroyTask');
+    Route::get('/events', [EventController::class, 'index'])->name('events.index');
+    Route::get('/createEventsView', [EventController::class, 'create'])->name('events.create');
+    Route::post('/create', [EventController::class, 'store'])->name('events.store');
+    Route::get('/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
+    Route::put('/{event}', [EventController::class, 'update'])->name('events.update');
+    Route::delete('/{id}/destroy', [EventController::class, 'destroy'])->name('events.destroy');
+
+
 
     // Routes pour WasteTip
     Route::get('/wasteTips', [WasteTipController::class, 'index'])->name('admin.WasteTips');
     Route::post('/wasteTips', [WasteTipController::class, 'store'])->name('admin.WasteTips');
-    Route::delete('/wasteTips/{id}', [WasteTipController::class, 'destroy'])->name('wasteTips.destroy');  
+    Route::delete('/wasteTips/{id}', [WasteTipController::class, 'destroy'])->name('wasteTips.destroy');
     Route::put('/wasteTips/{id}', [WasteTipController::class, 'update'])->name('admin.WasteTips.update');
 
 }
-    
+
+
+
+
 );
 require __DIR__.'/auth.php';

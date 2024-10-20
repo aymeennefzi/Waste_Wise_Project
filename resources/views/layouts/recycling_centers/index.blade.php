@@ -65,10 +65,10 @@
 
 <body class="bg-gray-100 min-h-screen">
     <!-- Page Heading -->
-    <header class="bg-white shadow mt-6">
+    <header class="shadow mt-6">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <h2 class="font-semibold text-3xl text-gray-800 leading-tight flex items-center">
-                <i class="fas fa-map-marker-alt text-green-500 mr-3"></i> Liste des centres de recyclage
+            <h2 class="font-semibold text-3xl text-white-800 leading-tight flex items-center">
+                <i class="fas fa-map-marker-alt text-green-500 mr-3 "></i> Liste des centres de recyclage
             </h2>
 
             <!-- Bouton Créer un Nouveau Centre (visible uniquement pour l'admin) -->
@@ -95,7 +95,7 @@
                             <div class="relative h-48 overflow-hidden rounded-t-lg">
                                 <!-- Utilisation du chemin dynamique pour afficher l'image -->
                                 <img src="{{ asset('storage/' . $center->image) }}" alt="{{ $center->name }}" class="w-full h-full object-cover card-image">
-                                
+
                                 <!-- Icônes d'administration (affichées uniquement si l'utilisateur est un admin) -->
                                 @if(auth()->check() && auth()->user()->utype == 'ADMIN')
                                     <div class="admin-icons">
