@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Community; // Import the Community model
-use App\Models\TaskC; // Importer le modèle Task
+use App\Models\Task; // Importer le modèle Task
 
 
 class CommunityController extends Controller
@@ -76,7 +76,7 @@ class CommunityController extends Controller
      */
     public function show($id)
     {
-        $community = Community::with('tasksc')->findOrFail($id);
+        $community = Community::with('tasks')->findOrFail($id);
         return view('communities.show', compact('community'));//
     }
 
@@ -151,7 +151,7 @@ class CommunityController extends Controller
 }
 public function showDetails($id)
 {
-    $community = Community::with('tasksc')->findOrFail($id);
+    $community = Community::with('tasks')->findOrFail($id);
     return view('communities.details', compact('community'));
 }
 

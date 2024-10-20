@@ -112,35 +112,37 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('/communities', CommunityController::class);
 
     Route::resource('/tasks', TaskCController::class);
+
+        Route::get('/recycling_centers/create', [RecyclingCenterController::class, 'create'])->name('recycling_centers.create');
+        Route::post('/recycling_centers/', [RecyclingCenterController::class, 'store'])->name('recycling_centers.store');
+        Route::get('/recycling_centers/{id}/edit', [RecyclingCenterController::class, 'edit'])->name('recycling_centers.edit');
+        Route::put('/recycling_centers/{id}', [RecyclingCenterController::class, 'update'])->name('recycling_centers.update');
+        Route::delete('/recycling_centers/{id}', [RecyclingCenterController::class, 'destroy'])->name('recycling_centers.destroy');
+
+        Route::get('/admin-dashboard/materials/', [MaterialController::class, 'index'])->name('materials.index');
+        Route::get('/admin-dashboard/materials/create', [MaterialController::class, 'create'])->name('materials.create');
+        Route::post('/admin-dashboard/materials/', [MaterialController::class, 'store'])->name('materials.store');
+        Route::get('/admin-dashboard/materials/{id}/edit', [MaterialController::class, 'edit'])->name('materials.edit');
+        Route::put('/admin-dashboard/materials/{id}', [MaterialController::class, 'update'])->name('materials.update');
+        Route::delete('/admin-dashboard/materials/{id}', [MaterialController::class, 'destroy'])->name('materials.destroy');
+
+    Route::get('/admin-dashboard', function () {
+        return view('layouts.adminLayout');
+    })->name('layouts.adminLayout');
 }
+
 
 
 );
 
-Route::prefix('recycling_centers')->group(function () {
-    Route::get('/create', [RecyclingCenterController::class, 'create'])->name('recycling_centers.create');
-    Route::post('/', [RecyclingCenterController::class, 'store'])->name('recycling_centers.store');
-    Route::get('/{id}/edit', [RecyclingCenterController::class, 'edit'])->name('recycling_centers.edit');
-    Route::put('/{id}', [RecyclingCenterController::class, 'update'])->name('recycling_centers.update');
-    Route::delete('/{id}', [RecyclingCenterController::class, 'destroy'])->name('recycling_centers.destroy');
-});
-Route::prefix('admin-dashboard/materials')->group(function () {
-    Route::get('/', [MaterialController::class, 'index'])->name('materials.index');
-    Route::get('/create', [MaterialController::class, 'create'])->name('materials.create');
-    Route::post('/', [MaterialController::class, 'store'])->name('materials.store');
-    Route::get('/{id}/edit', [MaterialController::class, 'edit'])->name('materials.edit');
-    Route::put('/{id}', [MaterialController::class, 'update'])->name('materials.update');
-    Route::delete('/{id}', [MaterialController::class, 'destroy'])->name('materials.destroy');
-});
 
-Route::get('/admin-dashboard', function () {
-    return view('layouts.adminLayout');
-})->name('layouts.adminLayout');
 });
 
 
 
 
+Route::get('/user-dashboard/recycling_centers', [RecyclingCenterController::class, 'index'])->name('recycling_centers.index');
+Route::get('/admin-dashboard/recycling_centers', [RecyclingCenterController::class, 'index'])->name('recycling_centers.admin');
 
 
 
@@ -166,9 +168,9 @@ Route::prefix('user-dashboard/materials')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/user-dashboard/recycling_centers', [RecyclingCenterController::class, 'index'])->name('recycling_centers.index');
-    Route::get('/admin-dashboard/recycling_centers', [RecyclingCenterController::class, 'index'])->name('recycling_centers.admin');
-  //PostItem
+
+
+    //PostItem
     // Route::resource('item-posts', ItemPostController::class);
     // Route::get('item-posts/user', [ItemPostController::class, 'userPosts'])->name('item-posts.user');
     Route::get('item-posts/user', [ItemPostController::class, 'userPosts'])->name('item-posts.user');

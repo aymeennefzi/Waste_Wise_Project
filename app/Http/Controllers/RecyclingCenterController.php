@@ -18,7 +18,7 @@ class RecyclingCenterController extends Controller
     {
         // Récupérer toutes les données des centres de recyclage
         $centers = RecyclingCenter::with('materials')->get();
-    
+
         // Vérifier si l'utilisateur est authentifié
         if (Auth::check()) {
             // Vérifier le type d'utilisateur
@@ -36,14 +36,14 @@ class RecyclingCenterController extends Controller
             // Rediriger vers la page de connexion ou une autre page
             return redirect()->route('login')->with('message', 'Veuillez vous connecter pour continuer.');
         }
-    
+
         // Si aucun centre n'est trouvé, afficher un message d'erreur
         if ($centers->isEmpty()) {
             return redirect()->route('recycling_centers.index')->withErrors(['no_centers' => 'Aucun centre de recyclage trouvé.']);
         }
     }
-    
-    
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -99,8 +99,8 @@ class RecyclingCenterController extends Controller
         return redirect()->route('recycling_centers.index')->with('success', 'Centre de recyclage créé avec succès.');
     }
 
-      
-    
+
+
 
     /**
      * Display the specified resource.
