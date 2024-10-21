@@ -1,11 +1,10 @@
-@extends('layouts.user')
+@extends('layouts.adminLayout')
 
 @section('content')
 <div class="container p-4">
     <div class="card shadow" style="border-radius: 10px;">
         <div class="card-header text-center" style="background-color: #008080; color: white;">
-            <h2 class="mb-0">Créer une nouvelle communauté</h2>
-            <i class="fas fa-users" style="font-size: 1.5rem;"></i>
+            <h2 class="mb-0">Créer une nouvelle communauté <i class="fas fa-users" style="font-size: 1.5rem;"></i></h2>
         </div>
         <div class="card-body">
             <form action="{{ route('communities.store') }}" method="POST" enctype="multipart/form-data">
@@ -30,6 +29,14 @@
                 </button>
             </form>
         </div>
+    </div>
+
+    <!-- Ligne de séparation pour la communauté -->
+    <hr style="border: 1px solid #008080; margin: 20px 0;">
+
+    <h3 class="text-center" style="color: #008080;"><i class="fas fa-users"></i> Communautés</h3>
+    <div class="community-list">
+        <!-- Liste des communautés ici -->
     </div>
 </div>
 @endsection

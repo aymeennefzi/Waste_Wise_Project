@@ -72,6 +72,8 @@
 		<link rel="stylesheet" type="text/css" href="{{ asset('front_office/assets/css/style.css')}}" />
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-7N7LGGGWT1"></script>
+		<!-- <script src="https://js.pusher.com/7.0/pusher.min.js"></script> -->
+
 		<script>
 			window.dataLayer = window.dataLayer || [];
 			function gtag() {
@@ -97,8 +99,62 @@
 		<!------------------------------------- Template Css Styles ----------------------------------------------->
 		<link rel="stylesheet" href=".{{ asset('front_office/assets/Template/css/style.css')}}" type="text/css">
 		<!-------------------------------------End Template Css Styles ----------------------------------------------->
+		 <!-- CSS de Toastr -->
+		 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+
+<!-- JS de Pusher -->
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
+<!-- Assurez-vous que jQuery est inclus si vous l'utilisez -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JS de Toastr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+        // Activer le log dans la console pour Pusher
+        Pusher.logToConsole = true;
+
+        // Initialiser Pusher avec votre clé et le cluster
+        var pusher = new Pusher('d384ed014b78d9e69093', {
+            cluster: 'eu', // Mettez à jour avec le cluster que vous utilisez
+            forceTLS: true
+        });
+
+        // S'abonner au canal
+        var channel = pusher.subscribe('wastetips');
+
+        // Écouter l'événement de création de WasteTip
+        channel.bind('App\\Events\\PostCreated', function(data) {
+            console.log(data); // Vérifiez la structure des données
+            if (data && data.title) {
+                // Afficher la notification Toastr
+                toastr.success('Un nouveau wastetip a été créé : ' + data.title, 'Nouveau WasteTip', {
+                    positionClass: 'toast-top-right',
+                    timeOut: 6000, // Durée d'affichage de la notification
+                    extendedTimeOut: 1000, // Durée d'affichage à l'extension
+                    progressBar: true,
+                    closeButton: true,
+                    toastClass: 'toast-success',
+                });
+            } else {
+                console.error('Invalid data structure received:', data);
+            }
+        });
+    </script>
+
+    <style>
+        /* Personnalisation de la notification Toastr */
+        .toast-success {
+            background-color: green; /* Fond vert */
+            color: white; /* Texte blanc */
+            font-weight: bold; /* Écriture en gras */
+        }
+    </style>
 	</head>
+
 	<body>
+
+
 		<!-- Header START -->
 		<header class="navbar-light navbar-sticky">
 			<!-- Logo Nav START -->
@@ -220,21 +276,34 @@
 								<div class="bg-dark border rounded-3 pb-0 p-3 w-100">
 									<!-- Dashboard menu -->
 									<div class="list-group list-group-dark list-group-borderless">
-    <a class="list-group-item" href="#"><i class="fas fa-calendar-alt fa-fw me-2"></i>Event</a>
-    <a class="list-group-item" href=""><i class="fas fa-users fa-fw me-2"></i>Community</a>
-	<a class="list-group-item" href="/user-dashboard/membership">
-											<i class="fas fa-plus fa-fw"></i> Membership
-										</a>		
-    <a class="list-group-item" href="#"><i class="fas fa-recycle fa-fw me-2"></i>Recycle Center</a>
-    <a class="list-group-item" href="/user-dashboard/WasteTips"><i class="fas fa-plus fa-fw"  ></i>Waste tips</a>
-
+										<a class="list-group-item" href="{{ route('communities.user.index') }}">
+											<i class="fas fa-users fa-fw me-2"></i> Community
 										</a>
-    <a class="list-group-item" href="#"><i class="fas fa-donate fa-fw me-2"></i>Donation</a>
-    <a class="list-group-item" href="">
-        <i class="fas fa-tasks fa-fw me-2"></i>Tasks
-    </a>
-    <a class="list-group-item text-danger bg-danger-soft-hover" href="#"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
-</div>
+																			
+										<a class="list-group-item" href="/user-dashboard/WasteTips"><i class="fas fa-plus fa-fw"  ></i>Waste tips</a>
+
+										</a>										
+										
+                                        <a class="list-group-item" href="{{ route('events.index2') }}">
+                                            <i class="fas fa-calendar-alt fa-fw me-2"></i>Event
+                                        </a>
+                                        <a class="list-group-item" href="{{ route('tasks.index2') }}">
+                                            <i class="fas fa-tasks fa-fw me-2"></i>Tasks
+                                        </a>
+
+										<a class="list-group-item" href="{{ route('recycling_centers.index')}}"><i class="fas fa-stream"></i>Recycle Center</a>
+										<a class="list-group-item" href="{{ route('materials.user')}}"><i class="fas fa-stream"></i>Materials</a>
+										
+										
+										<a class="list-group-item" href="/donations"><i class="fas fa-donate fa-fw me-2"></i>Donations</a>
+										<a class="list-group-item" href="/campaigns"><i class="fas fa-bullhorn fa-fw me-2"></i>Campaigns</a>
+
+										<a class="list-group-item text-danger bg-danger-soft-hover"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
+									</div>
+   
+    
+    
+
 
 								</div>	
 							</div>
@@ -270,5 +339,6 @@
 		<script src="{{ asset('front_office/assets/vendor/stepper/js/bs-stepper.min.js')}}"></script>
 		<!-- Template Functions -->
 		<script src="{{ asset('front_office/assets/js/functions.js')}}"></script>
+		
 	</body>
 </html>

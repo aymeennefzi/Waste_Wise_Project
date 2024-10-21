@@ -86,10 +86,14 @@
                 
                 <div class="form-row mt-4">
                 <div class="form-group mb-0 col-6">
-                <button type="button" class="btn btn-light btn-block"><i class="fa fa-facebook-square"></i> Facebook</button>
+                <a type="button" href="{{ url('auth/facebook') }}" class="btn btn-light btn-block">
+                    <i class="fa fa-facebook-square"></i> Facebook
+                </a>
                 </div>
                 <div class="form-group mb-0 col-6 text-right">
-                <button type="button" class="btn btn-light btn-block"><i class="fa fa-twitter-square"></i> Twitter</button>
+                <a type="button" href="{{ url('auth/google') }}" class="btn btn-light btn-block">
+                    <i class="fa fa-google"></i> Google
+                </a>
                 </div>
             </div>
                 

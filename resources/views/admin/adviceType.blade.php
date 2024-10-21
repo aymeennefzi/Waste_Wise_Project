@@ -27,16 +27,23 @@
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Advice Type Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required value="{{ old('name') }}">
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3" required>{{ old('description') }}</textarea>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3 text-center">
                             <button type="submit" class="btn btn-primary">Add Advice Type</button>
                         </div>
                     </form>
+
 
                     <h5 class="card-title mt-5">Advice Types List</h5>
 
@@ -85,21 +92,27 @@
                                                         <h5 class="modal-title text-dark" id="editModalLabel{{ $adviceType->id }}">Edit Advice Type</h5>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form action="{{ route('admin.adviceType.update', $adviceType->id) }}" method="POST">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="mb-3">
-                                                                <label for="name{{ $adviceType->id }}" class="form-label text-dark">Advice Type Name</label>
-                                                                <input type="text" class="form-control bg-dark" id="name{{ $adviceType->id }}" name="name" value="{{ $adviceType->name }}" required>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="description{{ $adviceType->id }}" class="form-label text-dark">Description</label>
-                                                                <textarea class="form-control bg-dark" id="description{{ $adviceType->id }}" name="description" rows="3" required>{{ $adviceType->description }}</textarea>
-                                                            </div>
-                                                            <div class="text-center">
-                                                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                                            </div>
-                                                        </form>
+                                                    <form action="{{ route('admin.adviceType.update', $adviceType->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="mb-3">
+                                                            <label for="name{{ $adviceType->id }}" class="form-label text-dark">Advice Type Name</label>
+                                                            <input type="text" class="form-control bg-dark" id="name{{ $adviceType->id }}" name="name" value="{{ old('name', $adviceType->name) }}" required>
+                                                            @error('name')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="description{{ $adviceType->id }}" class="form-label text-dark">Description</label>
+                                                            <textarea class="form-control bg-dark" id="description{{ $adviceType->id }}" name="description" rows="3" required>{{ old('description', $adviceType->description) }}</textarea>
+                                                            @error('description')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="text-center">
+                                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                    </form>
                                                     </div>
                                                 </div>
                                             </div>

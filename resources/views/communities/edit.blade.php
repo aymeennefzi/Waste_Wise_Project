@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 @extends('layouts.user')
+=======
+@extends('layouts.adminLayout')
+>>>>>>> 8b3de3b7daf35623eeedd959dfe5676281983156
 
 @section('content')
 <div class="container p-4">

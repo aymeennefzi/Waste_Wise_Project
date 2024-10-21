@@ -1,96 +1,149 @@
+
 <?php
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
+use App\Models\event;
 use Illuminate\Http\Request;
-use App\Models\Community; // Importer le modèle Community
-use App\Models\Task; // Importer le modèle Task
 
 class TaskController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $query = Task::with('community'); // Start the query
-    
-        // Search functionality
-        if ($request->has('search') && $request->search !== '') {
-            $query->where(function($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
-            });
-        }
-    
-        // Filtering by community
-        if ($request->has('community_id') && $request->community_id !== '') {
-            $query->where('community_id', $request->community_id);
-        }
-    
-        // Sorting
-        if ($request->has('sort') && in_array($request->sort, ['due_date', 'status'])) {
-            $query->orderBy($request->sort, 'asc'); // Change 'asc' to 'desc' for descending order
-        }
-    
-        $tasks = $query->get(); // Execute the query
-    
-        $communities = Community::all(); // Get communities for the filter dropdown
-    
-        return view('tasks.index', compact('tasks', 'communities'));
+        $tasks = Task::all();
+        return view('tasks.allTasks', ['tasks' => $tasks]);
     }
-    
 
+
+    public function index2()
+    {
+        $tasks = Task::all();
+        return view('tasks.newTasks', ['tasks' => $tasks]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
-        $communities = Community::all();
-        return view('tasks.create', compact('communities'));
+        $events = event::all();
+        return view('tasks.addTasks', ['events' => $events]);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'community_id' => 'required|exists:communities,id',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'due_date' => 'nullable|date',
-            'status' => 'required|in:pending,completed',
-        ]);
+        // $request->validate([
+        //     'event_id' => 'required|exists:events,id',
+        //     'task_type' => 'required|string|max:255',
+        //     'description' => 'required|string',
+        //     'start_time' => 'required|date',
+        //     'end_time' => 'required|date|after:start_time',
+        //     'estimated_duration' => 'required|integer',
+        //     'cost_estimate' => 'required|numeric'
+        // ]);
 
-        Task::create($validated);
 
-        return redirect()->route('tasks.index')->with('success', 'Tâche créée avec succès.');
+        print($request);
+        $task = new Task();
+         $task->event_id = $request->input('event_id');
+        $task->task_type = $request->input('task_type');
+        $task->description = $request->input('description');
+        $task->start_time = $request->input('start_time');
+        $task->end_time = $request->input('end_time');
+        $task->estimated_duration = $request->input('estimated_duration');
+        $task->cost_estimate = $request->input('cost_estimate');
+        $task->save();
+
+        return redirect()->route('taskse.index')->with('success', 'task created successfully');
     }
 
-    public function edit(Task $task)
-    {
-        $communities = Community::all();
-        return view('tasks.edit', compact('task', 'communities'));
-    }
-
-    public function update(Request $request, Task $task)
-    {
-        $validated = $request->validate([
-            'community_id' => 'required|exists:communities,id',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'due_date' => 'nullable|date',
-            'status' => 'required|in:pending,completed',
-        ]);
-
-        $task->update($validated);
-
-        return redirect()->route('tasks.show', $task->id)->with('success', 'Tâche mise à jour avec succès.');
-    }
-
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Task  $task
+     * @return \Illuminate\Http\Response
+     */
     public function show(Task $task)
     {
-        return view('tasks.show', compact('task'));
+        return view('tasks.show', ['task' => $task]);
     }
 
-    public function destroy(Task $task)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Task  $task
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
-        $task->delete();
-        return redirect()->route('tasks.index')->with('success', 'Tâche supprimée avec succès.');
+        $task = Task::findOrFail($id);
+        $events = Event::all();
+
+        return view('tasks.updateTasks', compact('task', 'events'));
+        // return view('tasks.updateTasks', ['task' => $task]);
+
+
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Task  $task
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        // $request->validate([
+        //     'event_id' => 'required|exists:events,id',
+        //     'task_type' => 'required|string|max:255',
+        //     'description' => 'required|string',
+        //     'start_time' => 'required|date',
+        //     'end_time' => 'required|date|after:start_time',
+        //     'estimated_duration' => 'required|integer',
+        //     'cost_estimate' => 'required|numeric'
+        // ]);
 
-    
+        $task = Task::findOrFail($id);
+        $task->event_id = $request->input('event_id');
+        $task->task_type = $request->input('task_type');
+        $task->description = $request->input('description');
+        $task->start_time = $request->input('start_time');
+        $task->end_time = $request->input('end_time');
+        $task->estimated_duration = $request->input('estimated_duration');
+        $task->cost_estimate = $request->input('cost_estimate');
+        $task->save();
+
+        $events = Event::all();
+
+        return redirect()->route('taskse.index')->with('success', 'Task updated successfully');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Task  $task
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $task = Task::findOrFail($id);
+        $task->delete();
+
+        return redirect()->route('taskse.index')->with('success', 'Task deleted successfully');
+    }
 }

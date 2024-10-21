@@ -50,7 +50,7 @@
 
 
 <div class="clearfix"></div>
-	
+
   <div class="content-wrapper">
     <div class="container-fluid">
 	@yield('content')
@@ -59,14 +59,14 @@
 	<!--start overlay-->
 		  <div class="overlay toggle-menu"></div>
 		<!--end overlay-->
-	
+
     </div>
     <!-- End container-fluid-->
    </div><!--End content-wrapper-->
    <!--Start Back To Top Button-->
     <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
     <!--End Back To Top Button-->
-	
+
 
 
   </div><!--End wrapper-->
@@ -87,5 +87,28 @@
 			<script src="{{ asset('Back_office/assets/plugins/Chart.js/Chart.min.js')}}"></script>
 			<!-- Index js -->
 			<script src="{{ asset('Back_office/assets/js/index.js')}}"></script>
+
+            <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var map = L.map('map').setView([36.8065, 10.1815], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var marker = L.marker([36.8065, 10.1815], { draggable: true }).addTo(map);
+
+        marker.on('dragend', function () {
+            var lat = marker.getLatLng().lat;
+            var lng = marker.getLatLng().lng;
+
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+            document.getElementById('location').value = https://www.google.com/maps?q=${lat},${lng};
+        });
+    });
+</script>
 		</body>
 	</html>
