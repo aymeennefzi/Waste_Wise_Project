@@ -18,49 +18,43 @@
 
 # EXPOSE 5000
 
-# Use the official PHP image as a base image
-FROM webdevops/php-nginx:8.3-alpine
+# Utiliser l'image PHP comme base
+FROM php:8.2-fpm
 
-# Installation dans votre Image du minimum pour que Docker fonctionne
-RUN apk add oniguruma-dev libxml2-dev
-RUN docker-php-ext-install \
-        bcmath \
-        ctype \
-        fileinfo \
-        mbstring \
-        pdo_mysql \
-        xml
+# Définir le répertoire de travail
+WORKDIR /var/www/html
 
-# Installation dans votre image de Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Installation dans votre image de NodeJS
-RUN apk add nodejs npm
-
-ENV WEB_DOCUMENT_ROOT /app/public
-ENV APP_ENV production
-WORKDIR /app
-COPY . .
-ls -la
-
-
+# Copier le fichier .env dans l'image
 COPY .env .env
 
+# Installer les dépendances nécessaires
+RUN apt-get update && apt-get install -y libzip-dev unzip \
+    && docker-php-ext-install zip
 
-# Installation et configuration de votre site pour la production
-# https://laravel.com/docs/10.x/deployment#optimizing-configuration-loading
-RUN composer install --no-interaction --optimize-autoloader --no-dev
-# Generate security key
+# Installer Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copier le reste de l'application
+COPY . .
+
+# Installer les dépendances Composer
+RUN composer install --prefer-dist --no-suggest
+
+# Assurez-vous que les permissions sont correctes
+RUN chmod -R 775 /var/www/html
+
+# Nettoyer les caches avant de générer la clé
+RUN php artisan config:clear
+RUN php artisan cache:clear
+
+# Générer la clé de l'application
 RUN php artisan key:generate
-# Optimizing Configuration loading
+
+# Optimiser le chargement de la configuration
 RUN php artisan config:cache
-# Optimizing Route loading
-RUN php artisan route:cache
-# Optimizing View loading
-RUN php artisan view:cache
 
-# Compilation des assets de Breeze (ou de votre site)
-RUN npm install
-RUN npm run build
+# Exposer le port
+EXPOSE 9000
 
-RUN chown -R application:application .
+# Commande par défaut
+CMD ["php-fpm"]
