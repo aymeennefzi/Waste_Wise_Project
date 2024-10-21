@@ -32,27 +32,12 @@ jobs:
 
       - name: Run Laravel Pint
         run: composer exec pint
-      
-      # - name: Create deployment artifact t
-      #   env:
-      #     GITHUB_SHA: ${{ github.sha }}
-      #   run: tar -czf "${GITHUB_SHA}.tar.gz" --exclude=*.git --exclude=node_modules * 
-
-      # - name: Store artifact for distribution
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: app-build
-      #     path: ${{ github.sha }}.tar.gz
-
-      # - name: Download artifact
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: app-build
-      #     path: ./artifact
 
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    needs: build  # Spécifie que ce job dépend de 'build'
+    
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -80,6 +65,7 @@ jobs:
   deploy_to_vm:
     name: Deploy_to_VM
     runs-on: ubuntu-latest
+    needs: push_to_registry  # Spécifie que ce job dépend de 'push_to_registry'
 
     steps:
       - name: executing remote ssh commands using password
@@ -91,5 +77,4 @@ jobs:
           port: ${{ secrets.VM_PORT }}           
           script: |
             echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker pull aymennefzi99/wastewise
-            echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker-compose -f docker-compose.yml up -d
-
+            echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker-compose -f /path/to/docker-compose.yml up -d
