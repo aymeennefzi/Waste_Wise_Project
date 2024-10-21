@@ -153,21 +153,7 @@
 	</head>
 
 	<body>
-	<!-- <script>
-    // Configuration de Pusher avec vos clés
-		Pusher.logToConsole = true;
 
-		var pusher = new Pusher('d384ed014b78d9e69093', {
-			cluster: 'eu', // Utilisez votre cluster
-			encrypted: true
-		});
-
-		var channel = pusher.subscribe('wastetips');
-		channel.bind('App\\Events\\PostCreated', function(data) {
-			alert('Un nouveau wastetip a été créé : ' + data.title);
-			// Vous pouvez également mettre à jour la liste des wastetips sur la page sans recharger
-		});
-	</script> -->
 
 		<!-- Header START -->
 		<header class="navbar-light navbar-sticky">
@@ -290,19 +276,35 @@
 								<div class="bg-dark border rounded-3 pb-0 p-3 w-100">
 									<!-- Dashboard menu -->
 									<div class="list-group list-group-dark list-group-borderless">
-										<a class="list-group-item"><i class="fas fa-address-card fa-fw me-2"></i>Event<a>
-										<a class="list-group-item"> <i class="fas fa-plus fa-fw"></i>Community</a>
-										<a class="list-group-item" href="/user-dashboard/membership">
-											<i class="fas fa-plus fa-fw"></i> Membership
-										</a>										
-										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>
+										<a class="list-group-item" href="{{ route('communities.user.index') }}">
+											<i class="fas fa-users fa-fw me-2"></i> Community
+										</a>
+																			
 										<a class="list-group-item" href="/user-dashboard/WasteTips"><i class="fas fa-plus fa-fw"  ></i>Waste tips</a>
 
-										</a>										<a class="list-group-item"><i class="fas fa-stream"></i>Recycle Center</a>
-										<a class="list-group-item"><i class="fas fa-plus fa-fw"></i>Waste tips</a>
-										<a class="list-group-item"><i class="fas fa-stream"></i>Donnation</a>
+										</a>										
+										
+                                        <a class="list-group-item" href="{{ route('events.index2') }}">
+                                            <i class="fas fa-calendar-alt fa-fw me-2"></i>Event
+                                        </a>
+                                        <a class="list-group-item" href="{{ route('tasks.index2') }}">
+                                            <i class="fas fa-tasks fa-fw me-2"></i>Tasks
+                                        </a>
+
+										<a class="list-group-item" href="{{ route('recycling_centers.index')}}"><i class="fas fa-stream"></i>Recycle Center</a>
+										<a class="list-group-item" href="{{ route('materials.user')}}"><i class="fas fa-stream"></i>Materials</a>
+										
+										
+										<a class="list-group-item" href="/donations"><i class="fas fa-donate fa-fw me-2"></i>Donations</a>
+										<a class="list-group-item" href="/campaigns"><i class="fas fa-bullhorn fa-fw me-2"></i>Campaigns</a>
+
 										<a class="list-group-item text-danger bg-danger-soft-hover"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
 									</div>
+   
+    
+    
+
+
 								</div>	
 							</div>
 						</div>

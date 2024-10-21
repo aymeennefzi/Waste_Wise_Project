@@ -20,5 +20,8 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        \App\Models\RecyclingCenter::factory(10)->create();
+        \App\Models\Material::factory(10)->create();
     }
 }

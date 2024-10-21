@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class authAdmin
 {
@@ -19,7 +21,7 @@ class authAdmin
         // Vérifier si l'utilisateur est authentifié
         if (Auth::check()) {
             // Vérifier le type d'utilisateur
-            if (Auth::user()->utype === 'ADM') {
+            if (Auth::user()->utype === 'ADMIN') {
                 return $next($request); // Autoriser l'accès
             } else {
                 session()->flush(); // Effacer la session

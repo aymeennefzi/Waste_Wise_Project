@@ -28,9 +28,33 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            {{-- <main>
                 {{ $slot }}
-            </main>
+            </main> --}}
         </div>
     </body>
+
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var map = L.map('map').setView([36.8065, 10.1815], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var marker = L.marker([36.8065, 10.1815], { draggable: true }).addTo(map);
+
+        marker.on('dragend', function () {
+            var lat = marker.getLatLng().lat;
+            var lng = marker.getLatLng().lng;
+
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+            document.getElementById('location').value = https://www.google.com/maps?q=${lat},${lng};
+        });
+    });
+</script>
 </html>
