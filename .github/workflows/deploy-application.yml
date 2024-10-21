@@ -63,19 +63,19 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
   
   deploy_to_vm:
-    name: Deploy_to_VM
-    runs-on: ubuntu-latest
-    needs: push_to_registry  # Spécifie que ce job dépend de 'push_to_registry'
+  name: Deploy_to_VM
+  runs-on: ubuntu-latest
+  needs: push_to_registry  # Spécifie que ce job dépend de 'push_to_registry'
 
-    steps:
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@v1.1.0
-        with:
-          host: ${{ secrets.VM_HOST }}           
-          username: ${{ secrets.VM_USER }}   
-          password: ${{ secrets.VM_PASSWORD }}
-          port: ${{ secrets.VM_PORT }}           
-          script: |
-            echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker pull aymennefzi99/wastewise
-            echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker run --name wastewise-container -d aymennefzi99/wastewise
-            echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker exec -it wastewise-container /bin/sh -c "docker-compose up -d"
+  steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.1.0
+      with:
+        host: ${{ secrets.VM_HOST }}           
+        username: ${{ secrets.VM_USER }}   
+        password: ${{ secrets.VM_PASSWORD }}
+        port: ${{ secrets.VM_PORT }}           
+        script: |
+          echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker pull aymennefzi99/wastewise
+          echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker-compose -f /home/ubuntu-server/docker-compose.yml up -d
+
