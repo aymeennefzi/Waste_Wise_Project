@@ -15,14 +15,23 @@ class ItemPostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Retrieve all ItemPost records where status = 1
-        $itemPosts = ItemPost::where('status', 1)->get();
+        // Retrieve search parameters from the request
+        $searchQuery = $request->input('search');
     
-        // Pass the retrieved item posts to the view
-        return view('item_posts.index', compact('itemPosts'));
+        // Query the ItemPost model to get posts where status = 1 and match the search criteria
+        $itemPosts = ItemPost::where('status', 1)
+            ->when($searchQuery, function ($query, $searchQuery) {
+                return $query->where('name', 'like', '%' . $searchQuery . '%')
+                             ->orWhere('category', 'like', '%' . $searchQuery . '%');
+            })
+            ->paginate(7); // Adjust the number of items per page as needed
+    
+        // Pass the retrieved item posts and the current search query to the view
+        return view('item_posts.index', compact('itemPosts', 'searchQuery'));
     }
+    
     
     
 

@@ -3,7 +3,18 @@
 @section('content')
 
 <div class="container mt-5">
-    <h2 class="text-primary mb-4">Update Post</h2>
+    <div>
+    <h2 class="text-primary mb-4">Update Post</h2> 
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Update Post</h1>
+        <div>
+            <a href="{{ route('meetings.index') }}" class="btn btn-primary mx-2">Meetings</a>
+            <a href="{{ route('item-posts.user') }}" class="btn btn-primary mx-2">Your Posts</a>
+            <a href="{{ route('item-posts.create') }}" class="btn btn-primary">Create New Post</a>
+        </div>
+    </div>
+
+    </div>
 
     <form action="{{ route('item-posts.update', $itemPost->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -11,16 +22,28 @@
         
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $itemPost->name) }}" required>
+            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $itemPost->name) }}" >
+            @error('name')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
+
         <div class="mb-3">
             <label for="category" class="form-label">Category</label>
-            <input type="text" class="form-control" id="category" name="category" value="{{ old('category', $itemPost->category) }}" required>
+            <input type="text" class="form-control @error('category') is-invalid @enderror" id="category" name="category" value="{{ old('category', $itemPost->category) }}" >
+            @error('category')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
+
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3" required>{{ old('description', $itemPost->description) }}</textarea>
+            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3" >{{ old('description', $itemPost->description) }}</textarea>
+            @error('description')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
+
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
             <input type="file" class="form-control" id="image" name="image">
@@ -56,8 +79,7 @@
                 });
             }
         </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
-    type="text/javascript"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" type="text/javascript"></script>
 
         <input type="hidden" name="lat" id="lat" value="{{ old('lat', $itemPost->lat) }}">
         <input type="hidden" name="lng" id="lng" value="{{ old('lng', $itemPost->lng) }}">

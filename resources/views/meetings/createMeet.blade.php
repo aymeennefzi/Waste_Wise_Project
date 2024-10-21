@@ -2,8 +2,16 @@
 
 @section('content')
 <div class="container my-5">
-    <h1 class="h3">Schedule a Meeting</h1>
 
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Schedule a Meeting</h1>
+        <div>
+            <a href="{{ route('meetings.index') }}" class="btn btn-primary mx-2">Meetings</a>
+            <a href="{{ route('item-posts.user') }}" class="btn btn-primary mx-2">Your Posts</a>
+            <a href="{{ route('item-posts.create') }}" class="btn btn-primary">Create New Post</a>
+        </div>
+
+    </div>
     <div class="card mb-4">
         <div class="card-body">
             <h5 class="card-title">{{ $itemPost->name }}</h5>
@@ -21,8 +29,14 @@
     
         <div class="mb-3">
             <label for="meeting_time" class="form-label">Meeting Time</label>
-            <input type="datetime-local" name="meeting_time" class="form-control" required>
+            <input type="datetime-local" name="meeting_time" class="form-control @error('meeting_time') is-invalid @enderror" value="{{ old('meeting_time') }}">
+            @error('meeting_time')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
         </div>
+        
         <div id="map" style="height:400px; width: 100%;" class="my-3 mb-4"></div>
 
         <script>

@@ -3,8 +3,14 @@
 @section('content')
 
 <div class="container my-5">
-    <h1 class="h3 mb-4">Your Meetings</h1>
-
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Show Meetings</h1>
+        <div>
+            <a href="{{ route('meetings.index') }}" class="btn btn-primary mx-2">Meetings</a>
+            <a href="{{ route('item-posts.user') }}" class="btn btn-primary mx-2">Your Posts</a>
+            <a href="{{ route('item-posts.create') }}" class="btn btn-primary">Create New Post</a>
+        </div>
+    </div>
     @if($meeting->isEmpty())
         <p>You have no scheduled meetings.</p>
     @else

@@ -104,14 +104,17 @@ public function refuse($meetingId)
     {
         // Extract the item_post_id from the request (URL parameter)
         $itemPostId = $request->input('item_post_id');
-    
+        
         // Find the ItemPost using the provided item_post_id
         $itemPost = ItemPost::findOrFail($itemPostId);
         
+        // Custom validation rule to check that the meeting time is at least 30 minutes from now
         $request->validate([
-            'meeting_time' => 'required|date',
+            'meeting_time' => 'required|date|after:' . now()->addMinutes(30),
+        ], [
+            'meeting_time.after' => 'The meeting time must be at least 30 minutes from now.',
         ]);
-    
+        
         // Create the meeting with the appropriate data
         Meeting::create([
             'owner_id' => $itemPost->user_id, // User who owns the post
@@ -120,7 +123,7 @@ public function refuse($meetingId)
             'meeting_time' => $request->meeting_time,
             'status' => 1,
         ]);
-    
+        
         return redirect()->route('meetings.index')->with('success', 'Meeting scheduled successfully.');
     }
     

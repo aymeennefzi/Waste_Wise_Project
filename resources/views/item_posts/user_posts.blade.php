@@ -3,18 +3,24 @@
 
 @section('content')
 <div class="container my-5">
-    <h1 class="h3 mb-4">Your Posts</h1>
-
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Your Posts</h1>
+        <div>
+            <a href="{{ route('meetings.index') }}" class="btn btn-primary mx-2">Meetings</a>
+            <a href="{{ route('item-posts.user') }}" class="btn btn-primary mx-2">Your Posts</a>
+            <a href="{{ route('item-posts.create') }}" class="btn btn-primary">Create New Post</a>
+        </div>
+    </div>
     @if($userPosts->isEmpty())
         <p>You haven't created any posts yet.</p>
     @else
-        <div class="row">
+        <div class="row mt-5">
             @foreach($userPosts as $post)
                 <div class="col-md-6 mb-4">
                     <div class="card h-100 shadow-sm">
                         <div class="row no-gutters">
                             <div class="col-md-4">
-                                <img src="{{ asset('storage/' . $post->image) }}" class="card-img" alt="{{ $post->name }}" style="max-height: 150px; object-fit: cover;">
+                                <img src="{{ asset('storage/' . $post->image) }}" class="card-img" alt="{{ $post->name }}" style="    max-height: 150px;margin-top: 11%;bject-fit: cover;margin-left: 4%;">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">

@@ -298,6 +298,9 @@
 										<a class="list-group-item" href="/donations"><i class="fas fa-donate fa-fw me-2"></i>Donations</a>
 										<a class="list-group-item" href="/campaigns"><i class="fas fa-bullhorn fa-fw me-2"></i>Campaigns</a>
 
+										<a class="list-group-item" href="/item-posts"><i class="fas fa-bullhorn fa-fw me-2"></i>Posts</a>
+
+
 										<a class="list-group-item text-danger bg-danger-soft-hover"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
 									</div>
    

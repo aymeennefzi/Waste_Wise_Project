@@ -10,20 +10,38 @@
             
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $itemPost->name) }}" required>
+                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $itemPost->name) }}" >
+                @error('name')
+                    <div class="invalid-feedback">
+                        The name field must be filled out.
+                    </div>
+                @enderror
             </div>
+            
             <div class="mb-3">
                 <label for="category" class="form-label">Category</label>
-                <input type="text" class="form-control" id="category" name="category" value="{{ old('category', $itemPost->category) }}" required>
+                <input type="text" class="form-control @error('category') is-invalid @enderror" id="category" name="category" value="{{ old('category', $itemPost->category) }}" >
+                @error('category')
+                    <div class="invalid-feedback">
+                        The category field must be filled out.
+                    </div>
+                @enderror
             </div>
+            
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="3" required>{{ old('description', $itemPost->description) }}</textarea>
+                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3" >{{ old('description', $itemPost->description) }}</textarea>
+                @error('description')
+                    <div class="invalid-feedback">
+                        The description field must be filled out.
+                    </div>
+                @enderror
             </div>
+            
             <div class="mb-3">
                 <label for="image" class="form-label">Image</label>
                 <input type="file" class="form-control" id="image" name="image">
-                <small class="form-text text-muted">Leave blank if you do not want to change the image.</small>
+                <small class="form-text  " style="color: #ffffff">Leave blank if you do not want to change the image.</small>
             </div>
     
             <div id="map" style="height:400px; width: 100%;" class="my-3 mb-4"></div>
