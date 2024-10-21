@@ -77,4 +77,4 @@ jobs:
           port: ${{ secrets.VM_PORT }}           
           script: |
             echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker pull aymennefzi99/wastewise
-            echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker-compose -f /./docker-compose.yml up -d
+            echo "${{ secrets.VM_PASSWORD }}" | sudo -S docker-compose -f ./docker-compose.yml up -d
