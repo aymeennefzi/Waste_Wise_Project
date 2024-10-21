@@ -18,43 +18,33 @@
 
 # EXPOSE 5000
 
-# Utiliser l'image PHP comme base
-FROM php:8.2-fpm
+FROM php:8.2
 
-# Définir le répertoire de travail
-WORKDIR /var/www/html
+# Update and install necessary packages
+RUN apt-get update -y && apt-get install -y \
+    openssl zip unzip git \
+    libonig-dev default-mysql-client \
+    libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
+    libzip-dev  # Added to ensure zip extension can be installed
 
-# Copier le fichier .env dans l'image
-COPY .env /var/www/html/.env
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install pdo_mysql mbstring gd zip
 
-# Installer les dépendances nécessaires
-RUN apt-get update && apt-get install -y libzip-dev unzip \
-    && docker-php-ext-install zip
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Installer Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Set working directory
+WORKDIR /app
+COPY . /app
 
-# Copier le reste de l'application
-COPY . .
+# Clear Composer cache and install dependencies
+RUN composer clear-cache && \
+    composer update maatwebsite/excel phpoffice/phpspreadsheet --no-interaction --prefer-dist && \
+    composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=ext-zip
 
-# Installer les dépendances Composer
-RUN composer install --prefer-dist --no-suggest
+# Command to run your application
+CMD php artisan serve --host=0.0.0.0 --port=8000
 
-# Assurez-vous que les permissions sont correctes
-RUN chmod -R 775 /var/www/html
-
-# Nettoyer les caches avant de générer la clé
-RUN php artisan config:clear
-RUN php artisan cache:clear
-
-# Générer la clé de l'application
-RUN php artisan key:generate
-
-# Optimiser le chargement de la configuration
-RUN php artisan config:cache
-
-# Exposer le port
-EXPOSE 9000
-
-# Commande par défaut
-CMD ["php-fpm"]
+# Expose the port for the application
+EXPOSE 8000
