@@ -41,6 +41,8 @@ ENV WEB_DOCUMENT_ROOT /app/public
 ENV APP_ENV production
 WORKDIR /app
 COPY . .
+ls -la
+
 
 COPY .env .env
 
