@@ -5,26 +5,56 @@
 @section('content')
 
 <div class="container mt-5">
-    <h2 class="text-primary mb-4">Add New Post</h2>
-
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Adding new post</h1>
+        <div>
+            <a href="{{ route('meetings.index') }}" class="btn btn-primary mx-2">Meetings</a>
+            <a href="{{ route('item-posts.user') }}" class="btn btn-primary mx-2">Your Posts</a>
+            <a href="{{ route('item-posts.create') }}" class="btn btn-primary">Create New Post</a>
+        </div>
+    </div>
     <form action="{{ route('item-posts.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
+            @error('name')
+                <div class="invalid-feedback">
+                    The name field is required.
+                </div>
+            @enderror
         </div>
+        
         <div class="mb-3">
             <label for="category" class="form-label">Category</label>
-            <input type="text" class="form-control" id="category" name="category" required>
+            <input type="text" class="form-control @error('category') is-invalid @enderror" id="category" name="category" value="{{ old('category') }}">
+            @error('category')
+                <div class="invalid-feedback">
+                    The category field is required.
+                </div>
+            @enderror
         </div>
+        
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+            @error('description')
+                <div class="invalid-feedback">
+                    The description field is required.
+                </div>
+            @enderror
         </div>
+        
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
-            <input type="file" class="form-control" id="image" name="image" required>
+            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
+            @error('image')
+                <div class="invalid-feedback">
+                    An image file is required.
+                </div>
+            @enderror
         </div>
+        
         {{-- <div class="mb-3">
             <label for="lat" class="form-label">Latitude</label>
             <input type="text" class="form-control" id="lat" name="lat" required>
@@ -70,12 +100,25 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
             type="text/javascript"></script>
             <div class="invisible">
-                <input type="text" class="my-0"  placeholder="lat" name="lat" id="lat">
+                <input type="text" class="my-0 @error('lat') is-invalid @enderror" placeholder="lat" name="lat" id="lat" value="{{ old('lat') }}">
             </div>
-            <div class=" invisible ">
-                <label  class="form-label">Lng</label>
-                <input type="text" class="my-0" placeholder="lng" name="lng" id="lng">
+            @error('lat')
+                <div class="alert alert-danger mt-2">
+                    The latitude field is required.
+                </div>
+            @enderror
+            
+            <div class="invisible">
+                <label class="form-label">Lng</label>
+                <input type="text" class="my-0 @error('lng') is-invalid @enderror" placeholder="lng" name="lng" id="lng" value="{{ old('lng') }}">
             </div>
+            @error('lng')
+                <div class="alert alert-danger mt-2">
+                    The longitude field is required.
+                </div>
+            @enderror
+            
+            
 
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
