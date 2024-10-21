@@ -42,6 +42,7 @@ ENV APP_ENV production
 WORKDIR /app
 COPY . .
 
+COPY .env .env
 
 
 # Installation et configuration de votre site pour la production
