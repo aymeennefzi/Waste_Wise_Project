@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ItemPost; 
+use App\Models\Meeting; 
 use App\Models\User; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,11 +20,29 @@ class AdminPostController extends Controller
     }
 
     // Method to show all itemPosts
-    public function index()
+    public function index(Request $request)
     {
-        $itemPosts = ItemPost::with('user')->get();
-        return view('admin.Posts.index', compact('itemPosts')); // Return the admin index view with the itemPosts data
+        $query = ItemPost::with('user');
+    
+        // Search functionality
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+    
+        // Pagination
+        $itemPosts = $query->paginate(6); // You can set the number of items per page
+    
+        // Status counts for the chart
+        $statusCounts = [
+            'available' => Meeting::where('status', 1)->count(),
+            'taken' => Meeting::where('status', 2)->count(),
+            'refused' => Meeting::where('status', 3)->count(),
+        ];
+    
+        return view('admin.Posts.index', compact('itemPosts', 'statusCounts'));
     }
+    
+
 
 
     public function destroy($id)
