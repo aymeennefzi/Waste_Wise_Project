@@ -3,7 +3,14 @@
 @section('content')
 
 <div class="container my-5">
-    <h1 class="h3 mb-4">Your Meetings</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Your Meetings</h1>
+        <div>
+            <a href="{{ route('meetings.index') }}" class="btn btn-primary mx-2">Meetings</a>
+            <a href="{{ route('item-posts.user') }}" class="btn btn-primary mx-2">Your Posts</a>
+            <a href="{{ route('item-posts.create') }}" class="btn btn-primary">Create New Post</a>
+        </div>
+    </div>
 
     @if($meetings->isEmpty())
         <p>You have no scheduled meetings.</p>
@@ -27,13 +34,14 @@
                     <td>{{ $meeting->meeting_time }}</td>
                     <td>
                         @if($meeting->status == 1)
-                            Pending
+                            <span class="badge bg-warning text-dark">Pending</span>
                         @elseif($meeting->status == 2)
-                            Accepted
+                            <span class="badge bg-success">Accepted</span>
                         @elseif($meeting->status == 3)
-                            Refused
+                            <span class="badge bg-danger">Refused</span>
                         @endif
                     </td>
+                    
                     <td>
                         @if($meeting->owner_id == Auth::id() && $meeting->status == 1)
                         <form action="{{ route('meetings.accept', $meeting->id) }}" method="POST" style="display: inline;">
