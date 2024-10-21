@@ -65,7 +65,7 @@ jobs:
   deploy_to_vm:
     name: Deploy_to_VM
     runs-on: ubuntu-latest
-    needs: push_to_registry  # Spécifie que ce job dépend de 'push_to_registryy'
+    needs: push_to_registry  # Spécifie que ce job dépend de 'push_to_registry'
 
     steps:
       - name: executing remote ssh commands using password
