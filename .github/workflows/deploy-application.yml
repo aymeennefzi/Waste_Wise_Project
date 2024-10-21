@@ -32,11 +32,23 @@ jobs:
 
       - name: Run Laravel Pint
         run: composer exec pint
+  
+  sonarqube-analysis:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: aymeennefzi_Waste_Wise_Project
+          SONAR_ORG: aymeennefzi
 
-  push_to_registry:
+  push_image_to_dockerhub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    needs: build  # This job depends on the 'build' job
+    needs:  sonarqube-analysis:      
     
     steps:
       - name: Check out the repo
@@ -65,7 +77,7 @@ jobs:
   deploy_to_vm:
     name: Deploy to VM
     runs-on: ubuntu-latest
-    needs: push_to_registry  # This job depends on the 'push_to_registryy' job
+    needs: push_image_to_dockerhub  
 
     steps:
       - name: Execute remote SSH commands
