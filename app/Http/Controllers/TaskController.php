@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
-use App\Models\event;
+use App\Models\Event;
+use App\Events\NewNotification; // Ajoutez cette ligne
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // Assurez-vous que cette ligne est présente
 
 class TaskController extends Controller
 {
@@ -19,7 +21,6 @@ class TaskController extends Controller
         return view('tasks.allTasks', ['tasks' => $tasks]);
     }
 
-
     public function index2()
     {
         $tasks = Task::all();
@@ -33,7 +34,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $events = event::all();
+        $events = Event::all();
         return view('tasks.addTasks', ['events' => $events]);
     }
 
@@ -45,20 +46,18 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'event_id' => 'required|exists:events,id',
-        //     'task_type' => 'required|string|max:255',
-        //     'description' => 'required|string',
-        //     'start_time' => 'required|date',
-        //     'end_time' => 'required|date|after:start_time',
-        //     'estimated_duration' => 'required|integer',
-        //     'cost_estimate' => 'required|numeric'
-        // ]);
+        // Validate the request data
+        $request->validate([
+            'event_id' => 'required|exists:events,id',
+            'task_type' => 'required|string|max:255',
+            'description' => 'required|string',
+            'estimated_duration' => 'required|integer',
+            'cost_estimate' => 'required|numeric'
+        ]);
 
-
-        print($request);
+        // Create a new task
         $task = new Task();
-         $task->event_id = $request->input('event_id');
+        $task->event_id = $request->input('event_id');
         $task->task_type = $request->input('task_type');
         $task->description = $request->input('description');
         $task->start_time = $request->input('start_time');
@@ -67,7 +66,17 @@ class TaskController extends Controller
         $task->cost_estimate = $request->input('cost_estimate');
         $task->save();
 
-        return redirect()->route('taskse.index')->with('success', 'task created successfully');
+        // Préparation des données pour la notification
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'créé',
+            'item' => 'tâche',
+            'name' => $task->task_type,
+        ];
+
+        event(new NewNotification($data)); // Événement de notification
+
+        return redirect()->route('taskse.index')->with('success', 'Task created successfully');
     }
 
     /**
@@ -93,9 +102,6 @@ class TaskController extends Controller
         $events = Event::all();
 
         return view('tasks.updateTasks', compact('task', 'events'));
-        // return view('tasks.updateTasks', ['task' => $task]);
-
-
     }
 
     /**
@@ -107,17 +113,19 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     'event_id' => 'required|exists:events,id',
-        //     'task_type' => 'required|string|max:255',
-        //     'description' => 'required|string',
-        //     'start_time' => 'required|date',
-        //     'end_time' => 'required|date|after:start_time',
-        //     'estimated_duration' => 'required|integer',
-        //     'cost_estimate' => 'required|numeric'
-        // ]);
+        // Validate the request data
+        $request->validate([
+            'event_id' => 'required|exists:events,id',
+            'task_type' => 'required|string|max:255',
+            'description' => 'required|string',
+            'estimated_duration' => 'required|integer',
+            'cost_estimate' => 'required|numeric'
+        ]);
 
+        // Find the task by ID
         $task = Task::findOrFail($id);
+
+        // Update the task with the request data
         $task->event_id = $request->input('event_id');
         $task->task_type = $request->input('task_type');
         $task->description = $request->input('description');
@@ -127,7 +135,15 @@ class TaskController extends Controller
         $task->cost_estimate = $request->input('cost_estimate');
         $task->save();
 
-        $events = Event::all();
+        // Préparation des données pour la notification
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'mis à jour',
+            'item' => 'tâche',
+            'name' => $task->task_type,
+        ];
+
+        event(new NewNotification($data)); // Événement de notification
 
         return redirect()->route('taskse.index')->with('success', 'Task updated successfully');
     }
@@ -141,6 +157,17 @@ class TaskController extends Controller
     public function destroy($id)
     {
         $task = Task::findOrFail($id);
+        
+        // Préparation des données pour la notification
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'supprimé',
+            'item' => 'tâche',
+            'name' => $task->task_type,
+        ];
+
+        event(new NewNotification($data)); // Événement de notification
+
         $task->delete();
 
         return redirect()->route('taskse.index')->with('success', 'Task deleted successfully');

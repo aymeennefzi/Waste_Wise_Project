@@ -1,3 +1,4 @@
+{{-- //ca c est l admin layout --}}
 <!DOCTYPE html>
 <html lang="en">
 	<head>

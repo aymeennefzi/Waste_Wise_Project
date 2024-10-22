@@ -21,6 +21,9 @@ use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +48,10 @@ Route::get('/dashboard', function () {
     }
     return redirect()->route('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/notifications', [NotificationController::class, 'getNotifications']);
+Route::get('/notifications/unread', [NotificationController::class, 'getNotifications'])->defaults('unread', true);
+Route::post('/mark-notifications-read', [NotificationController::class, 'markNotificationsAsRead']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/user-dashboard', function () { return view('layouts.user');})->name('layouts.user');

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Livewire\RecyclingCenter;
+use App\Events\NewNotification;
 use App\Models\Material;
 use App\Models\RecyclingCenter as ModelsRecyclingCenter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MaterialController extends Controller
 {
@@ -16,64 +17,110 @@ class MaterialController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-{
-    $materials = Material::with('recyclingCenter')->paginate(10);
-    if (Auth::check()) {
-        // Vérifier le type d'utilisateur
-        if (Auth::user()->utype === 'ADMIN') {
-            // Rediriger l'utilisateur vers la vue spécifique des utilisateurs normaux
-            return view('layouts.materials.index', compact('materials'));
-        } elseif (Auth::user()->utype === 'USR') {
-            // Rediriger l'administrateur vers la vue d'administration
-            return view('layouts.materials.user', compact('materials'));
+    {
+        $materials = Material::with('recyclingCenter')->paginate(10);
+        if (Auth::check()) {
+            if (Auth::user()->utype === 'ADMIN') {
+                return view('layouts.materials.index', compact('materials'));
+            } elseif (Auth::user()->utype === 'USR') {
+                return view('layouts.materials.user', compact('materials'));
+            } else {
+                return redirect()->route('home')->with('error', 'Type d’utilisateur non reconnu.');
+            }
         } else {
-            // Gestion des types d'utilisateurs non pris en charge
-            return redirect()->route('home')->with('error', 'Type d’utilisateur non reconnu.');
+            return redirect()->route('login')->with('message', 'Veuillez vous connecter pour continuer.');
         }
-    } else {
-        // Rediriger vers la page de connexion ou une autre page
-        return redirect()->route('login')->with('message', 'Veuillez vous connecter pour continuer.');
     }
-}
 
-public function create()
-{
-    $recyclingCenters = ModelsRecyclingCenter::all(); // Assumez que vous avez un modèle RecyclingCenter
-    return view('layouts.materials.create', compact('recyclingCenters'));
-}
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $recyclingCenters = ModelsRecyclingCenter::all();
+        return view('layouts.materials.create', compact('recyclingCenters'));
+    }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'material_name' => 'required|string|max:255',
-        'description' => 'required|string',
-        'recycling_center_id' => 'required|exists:recycling_centers,id',
-    ]);
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // Add validation rules
+        $validatedData = $request->validate([
+            'material_name' => 'required|string|max:255',
+            'description' => 'required|string|max:1000', // Description with a limit of 1000 chars
+            'recycling_center_id' => 'required|exists:recycling_centers,id', // Ensure recycling center exists
+        ]);
 
-    Material::create($request->all());
-    return redirect()->route('materials.index')->with('success', 'Matériau créé avec succès.');
-}
+        // Create the material
+        $material = Material::create($validatedData);
 
-public function edit($id)
-{
-    $material = Material::findOrFail($id);
-    $recyclingCenters = ModelsRecyclingCenter::all();
-    return view('layouts.materials.edit', compact('material', 'recyclingCenters'));
-}
+        // Prepare data for notification
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'ajouté',
+            'item' => 'matériau',
+            'name' => $material->material_name,
+        ];
 
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'material_name' => 'required|string|max:255',
-        'description' => 'required|string',
-        'recycling_center_id' => 'required|exists:recycling_centers,id',
-    ]);
+        // Trigger notification event
+        event(new NewNotification($data));
 
-    $material = Material::findOrFail($id);
-    $material->update($request->all());
+        return redirect()->route('materials.index')->with('success', 'Matériau créé avec succès.');
+    }
 
-    return redirect()->route('materials.index')->with('success', 'Matériau mis à jour avec succès.');
-}
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $material = Material::findOrFail($id);
+        $recyclingCenters = ModelsRecyclingCenter::all();
+        return view('layouts.materials.edit', compact('material', 'recyclingCenters'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        // Add validation rules
+        $validatedData = $request->validate([
+            'material_name' => 'required|string|max:255',
+            'description' => 'required|string|max:1000', // Description with a limit of 1000 chars
+            'recycling_center_id' => 'required|exists:recycling_centers,id', // Ensure recycling center exists
+        ]);
+
+        // Find the material and update
+        $material = Material::findOrFail($id);
+        $material->update($validatedData);
+
+        // Prepare data for notification
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'mis à jour',
+            'item' => 'matériau',
+            'name' => $material->material_name,
+        ];
+
+        // Trigger notification event
+        event(new NewNotification($data));
+
+        return redirect()->route('materials.index')->with('success', 'Matériau mis à jour avec succès.');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -83,6 +130,21 @@ public function update(Request $request, $id)
      */
     public function destroy($id)
     {
-        //
+        $material = Material::findOrFail($id);
+        
+        // Prepare data for notification
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'supprimé',
+            'item' => 'matériau',
+            'name' => $material->material_name,
+        ];
+
+        // Trigger notification event
+        event(new NewNotification($data));
+
+        $material->delete();
+
+        return redirect()->route('materials.index')->with('success', 'Matériau supprimé avec succès.');
     }
 }

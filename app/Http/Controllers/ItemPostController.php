@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewNotification;
 use App\Models\ItemPost;
-use App\Models\Meeting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Storage;
 
 class ItemPostController extends Controller
 {
@@ -32,16 +31,13 @@ class ItemPostController extends Controller
         return view('item_posts.index', compact('itemPosts', 'searchQuery'));
     }
     
-    
-    
-
     public function getAddressFromCoordinates($lat, $lng)
     {
         try {
             $url = "https://nominatim.openstreetmap.org/reverse?format=json&lat={$lat}&lon={$lng}&addressdetails=1";
     
             $response = Http::withHeaders([
-                'User-Agent' => 'YourAppName (marwen.souissi000@gmail.com)'
+                'User-Agent' => 'YourAppName (bahaae.zaidi@gmail.com)'
             ])->get($url);
     
             // Check if the response was successful
@@ -63,7 +59,6 @@ class ItemPostController extends Controller
         }
     }
     
-
     /**
      * Show the form for creating a new resource.
      */
@@ -102,11 +97,11 @@ class ItemPostController extends Controller
             $imagePath = $file->storeAs('assets/images', $coverFilename, 'public');
         }
         
-    
         // Get the address from coordinates
         $address = $this->getAddressFromCoordinates($request->input('lat'), $request->input('lng'));
+        
         // Create the new ItemPost entry with the address
-        ItemPost::create([
+        $itemPost = ItemPost::create([
             'user_id' => Auth::id(),
             'name' => $request->input('name'),
             'category' => $request->input('category'),
@@ -116,9 +111,18 @@ class ItemPostController extends Controller
             'lng' => $request->input('lng'),
             'address' => $address,
             'status' => 1,
-
         ]);
-    
+        
+        // Notify users about the new item post
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'ajouté',
+            'item' => 'article',
+            'name' => $itemPost->name,
+        ];
+
+        event(new NewNotification($data));
+
         return redirect()->route('item-posts.index')->with('success', 'Item Post created successfully!');
     }
     
@@ -130,7 +134,6 @@ class ItemPostController extends Controller
         return view('item_posts.show', compact('itemPost'));
     }
 
-    
     public function userPosts()
     {
         // Get the posts that belong to the authenticated user along with the count of meetings
@@ -139,26 +142,21 @@ class ItemPostController extends Controller
         return view('item_posts.user_posts', compact('userPosts'));
     }
     
-
-
-
     /**
      * Show the form for editing the specified resource.
      */
     public function edit($id)
     {
         $itemPost = ItemPost::find($id);
-
-
-
-
-        return view('item_posts\update', compact('itemPost'));
+        return view('item_posts.update', compact('itemPost'));
     }
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {          $itemPost = ItemPost::find($id);
+    {          
+        $itemPost = ItemPost::find($id);
 
         // Validate the input fields
         $request->validate([
@@ -170,36 +168,31 @@ class ItemPostController extends Controller
         ]);
     
         // Initialize the image path
-        // Assuming $itemPost is the model instance you are updating
-$imagePath = $itemPost->image; // Start with the existing image path
+        $imagePath = $itemPost->image; // Start with the existing image path
 
-if ($request->hasFile('image')) {
-    // Get the uploaded file
-    $file = $request->file('image');
+        if ($request->hasFile('image')) {
+            // Get the uploaded file
+            $file = $request->file('image');
 
-    // Get the file extension
-    $coverExtension = $file->getClientOriginalExtension();
+            // Get the file extension
+            $coverExtension = $file->getClientOriginalExtension();
 
-    // Create the new filename
-    $coverFilename = 'cover_' . time() . '.' . $coverExtension;
+            // Create the new filename
+            $coverFilename = 'cover_' . time() . '.' . $coverExtension;
 
-    // Store the new file
-    $imagePath = $file->storeAs('assets/images', $coverFilename, 'public');
+            // Store the new file
+            $imagePath = $file->storeAs('assets/images', $coverFilename, 'public');
 
-    // Optionally, delete the old image if it exists
-    if ($itemPost->image) {
-        // Use Storage facade to delete the old image
-        \Storage::disk('public')->delete($itemPost->image);
-    }
-}
+            // Optionally, delete the old image if it exists
+            if ($itemPost->image) {
+                // Use Storage facade to delete the old image
+                Storage::disk('public')->delete($itemPost->image);
+            }
+        }
 
-// Update the model with the new image path
-$itemPost->image = $imagePath;
-$itemPost->save();
+        // Update the model with the new image path
+        $itemPost->image = $imagePath;
 
-
-
-    
         // Get the address from the coordinates
         $address = $this->getAddressFromCoordinates($request->input('lat'), $request->input('lng'));
     
@@ -213,7 +206,17 @@ $itemPost->save();
             'address' => $address,
             'status' => 1, // Assuming you want to keep this status for all posts
         ]);
-    
+
+        // Notify users about the updated item post
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'mis à jour',
+            'item' => 'article',
+            'name' => $itemPost->name,
+        ];
+
+        event(new NewNotification($data));
+
         return redirect()->route('item-posts.index')->with('success', 'Item Post updated successfully!');
     }
 
@@ -229,14 +232,19 @@ $itemPost->save();
                 Storage::disk('public')->delete($itemPost->image);
             }
     
+            $data = [
+                'user_name' => Auth::user()->name,
+                'action' => 'supprimé',
+                'item' => 'article',
+                'name' => $itemPost->name,
+            ];
+
+            event(new NewNotification($data));
+
             $itemPost->delete();
             return redirect()->route('item-posts.index')->with('success', 'Item Post deleted successfully!');
         } catch (\Exception $e) {
             return redirect()->route('item-posts.index')->with('error', 'Failed to delete Item Post: ' . $e->getMessage());
         }
     }
-    
-
-
-
 }

@@ -12,51 +12,51 @@
                     @method('PUT')
                     <div class="mb-3">
                         <label for="eventName" class="form-label">Event Name</label>
-                        <input type="text" class="form-control" id="eventName" name="eventName" value="{{ old('eventName', $event->eventName) }}" required>
+                        <input type="text" class="form-control" id="eventName" name="eventName" value="{{ old('eventName', $event->eventName) }}">
+                        @error('eventName')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
+
                     <div class="mb-3">
                         <label for="eventDate" class="form-label">Event Date</label>
-                        <input type="date" class="form-control" id="eventDate" name="eventDate" value="{{ old('eventDate', $event->eventDate) }}" required>
+                        <input type="date" class="form-control" id="eventDate" name="eventDate" value="{{ old('eventDate', $event->eventDate) }}">
+                        @error('eventDate')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
+
                     <div class="mb-3">
                         <label for="descreption" class="form-label">Description</label>
-                        <textarea class="form-control" id="descreption" name="descreption" rows="3" required>{{ old('descreption', $event->descreption) }}</textarea>
+                        <textarea class="form-control" id="descreption" name="descreption" rows="3">{{ old('descreption', $event->descreption) }}</textarea>
+                        @error('descreption')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
+
                     <div class="mb-3">
                         <label for="location" class="form-label">Location</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="location" name="location" value="{{ old('location', $event->location) }}" required readonly>
-                            <button type="button" class="btn btn-outline-secondary" id="openMapBtn">Choose on Map</button>
-                        </div>
+                        <input type="text" class="form-control" id="location" name="location" value="{{ old('location', $event->location) }}" readonly>
+                        @error('location')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
+
                     <div class="mb-3 text-center">
                         <button type="submit" class="btn btn-primary">Update Event</button>
                     </div>
                 </form>
             </div>
-            <!-- Column for image -->
-            <div class="col-md-6 text-center" style="margin-top: 50px">
-                <img src="{{ asset('Back_office/assets/images/2.webp') }}" alt="Event update illustration" class="img-fluid w-50">
-                <h6>"Refine your events for memorable experiences"</h6>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Map Modal -->
-<div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="mapModalLabel">Choose Location</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="map" style="height: 400px;"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="confirmLocation">Confirm Location</button>
+            <!-- Map and Image Column -->
+            <div class="col-md-6">
+                <!-- Map Container -->
+                <div class="mb-4">
+                    <label class="form-label">Choose Location on Map</label>
+                    <div id="map" style="height: 300px; width: 100%; border-radius: 8px;"></div>
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -86,29 +86,30 @@
 document.addEventListener('DOMContentLoaded', function() {
     let map;
     let marker;
-    let modal = new bootstrap.Modal(document.getElementById('mapModal'));
-    let openMapBtn = document.getElementById('openMapBtn');
-    let confirmBtn = document.getElementById('confirmLocation');
     let locationInput = document.getElementById('location');
 
     function initMap() {
+        // Initialize map
         map = L.map('map').setView([0, 0], 2);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
+        // Add click event listener
         map.on('click', function(e) {
             placeMarker(e.latlng);
+            updateLocationInput(e.latlng);
         });
 
-        // Set initial marker if location is already set
+        // Set initial marker if location exists
         let initialLocation = locationInput.value.split(',');
         if (initialLocation.length === 2) {
             let lat = parseFloat(initialLocation[0]);
             let lng = parseFloat(initialLocation[1]);
             if (!isNaN(lat) && !isNaN(lng)) {
-                placeMarker(L.latLng(lat, lng));
-                map.setView([lat, lng], 13);
+                let initialLatLng = L.latLng(lat, lng);
+                placeMarker(initialLatLng);
+                map.setView(initialLatLng, 13);
             }
         }
     }
@@ -121,26 +122,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    openMapBtn.addEventListener('click', function() {
-        modal.show();
-        if (!map) {
-            initMap();
-        } else {
-            map.invalidateSize();
-        }
-    });
+    function updateLocationInput(latLng) {
+        locationInput.value = latLng.lat.toFixed(6) + ', ' + latLng.lng.toFixed(6);
+    }
 
-    confirmBtn.addEventListener('click', function() {
-        if (marker) {
-            let latLng = marker.getLatLng();
-            locationInput.value = latLng.lat.toFixed(6) + ', ' + latLng.lng.toFixed(6);
-        }
-        modal.hide();
-    });
-
-    document.getElementById('mapModal').addEventListener('shown.bs.modal', function () {
-        map.invalidateSize();
-    });
+    // Initialize the map
+    initMap();
 });
 </script>
 @endsection

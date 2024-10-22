@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\event;
+use App\Models\Event; // Assurez-vous que le nom de votre modèle est correctement orthographié (Event avec E majuscule).
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Auth;
+use App\Events\NewNotification; // Assurez-vous que vous avez bien importé l'événement de notification.
 
 class EventController extends Controller
 {
@@ -15,14 +16,13 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = event::all();
+        $events = Event::all();
         return view('events.allEvents', ['events' => $events]);
     }
 
-
     public function index2()
     {
-        $events = event::all();
+        $events = Event::all();
         return view('events.newEvents', ['events' => $events]);
     }
 
@@ -34,8 +34,16 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        print($request);
-        $event = new event();
+        // Validate the incoming request data
+        $request->validate([
+            'eventName' => 'required|string|max:255',
+            'eventDate' => 'required|date',
+            'location' => 'required|string|max:255',
+            'descreption' => 'required|string',
+        ]);
+
+        // Create a new event with validated data
+        $event = new Event();
         $event->eventName = $request->input('eventName');
         $event->eventDate = $request->input('eventDate');
         $event->location = $request->input('location');
@@ -44,13 +52,23 @@ class EventController extends Controller
         $event->updated_at = now();
         $event->save();
 
+        // Notify users about the new event
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'ajouté',
+            'item' => 'événement',
+            'name' => $event->eventName,
+        ];
+        event(new NewNotification($data));
+
         return redirect()->route('events.index')->with('success', 'Event created successfully');
     }
 
-
-    public function create(){
+    public function create()
+    {
         return view('events.addEvents');
     }
+
     /**
      * Display the specified resource.
      *
@@ -59,7 +77,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        // Code pour afficher un événement spécifique (à implémenter si nécessaire)
     }
 
     /**
@@ -72,31 +90,33 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         // Validate the request data
-        // $request->validate([
-        //     'eventName' => 'required|string|max:255',
-        //     'eventDate' => 'required|date',
-        //     'location' => 'required|string',
-        //     'description' => 'required|string',
-        //     'communityId' => 'required|integer',
-        // ]);
+        $request->validate([
+            'eventName' => 'required|string|max:255',
+            'eventDate' => 'required|date',
+            'location' => 'required|string|max:255',
+            'descreption' => 'required|string',
+        ]);
 
-        // Find the event by ID
+        // Find the event by ID and update it with validated data
         $event = Event::findOrFail($id);
-
-        // Update the event with the request data
         $event->eventName = $request->input('eventName');
         $event->eventDate = $request->input('eventDate');
         $event->location = $request->input('location');
         $event->descreption = $request->input('descreption');
-        // $event->communityId = $request->input('communityId');
-
-        // Save the updated event
+        $event->updated_at = now();
         $event->save();
 
-        // Redirect to the events index with a success message
+        // Notify users about the updated event
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'mis à jour',
+            'item' => 'événement',
+            'name' => $event->eventName,
+        ];
+        event(new NewNotification($data));
+
         return redirect()->route('events.index')->with('success', 'Event updated successfully');
     }
-
 
     public function edit(Event $event)
     {
@@ -111,9 +131,17 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-
         $event = Event::findOrFail($id);
         $event->delete();
+
+        // Notify users about the deleted event
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'supprimé',
+            'item' => 'événement',
+            'name' => $event->eventName,
+        ];
+        event(new NewNotification($data));
 
         return redirect()->route('events.index')->with('success', 'Event deleted successfully');
     }

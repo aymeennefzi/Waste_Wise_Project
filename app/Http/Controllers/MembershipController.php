@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Membership;
 use App\Models\Community;
+use App\Events\NewNotification; // Ajoutez cette ligne pour les notifications
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,17 +30,24 @@ class MembershipController extends Controller
         $request->validate([
             'communityId' => 'required|integer|exists:communities,id',
             'joinedAt' => 'required|date',
-
-            // 'joinedAt' => 'required|date|date_format:Y-m-d|after_or_equal:' . $currentYear . '-01-01|before_or_equal:' . $currentYear . '-12-31',
-
         ]);
 
         // Automatically assign the authenticated user's ID
-        Membership::create([
+        $membership = Membership::create([
             'userId' => Auth::id(),
             'communityId' => $request->input('communityId'),
             'joinedAt' => $request->input('joinedAt')
         ]);
+
+        // Préparation des données pour la notification
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'créé',
+            'item' => 'adhésion',
+            'name' => $membership->community->name, // Nom de la communauté associée
+        ];
+
+        event(new NewNotification($data)); // Événement de notification
 
         return redirect()->route('membership.index')->with('success', 'Membership created successfully.');
     }
@@ -47,7 +56,6 @@ class MembershipController extends Controller
     public function edit($id)
     {
         $membership = Membership::findOrFail($id);
-
         $communities = Community::all();
         return view('front_office.memberships.edit', compact('membership', 'communities'));
     }
@@ -66,6 +74,16 @@ class MembershipController extends Controller
             'joinedAt' => $request->input('joinedAt')
         ]);
 
+        // Préparation des données pour la notification
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'mis à jour',
+            'item' => 'adhésion',
+            'name' => $membership->community->name, // Nom de la communauté associée
+        ];
+
+        event(new NewNotification($data)); // Événement de notification
+
         return redirect()->route('membership.index')->with('success', 'Membership updated successfully.');
     }
 
@@ -73,6 +91,17 @@ class MembershipController extends Controller
     public function destroy($id)
     {
         $membership = Membership::findOrFail($id);
+
+        // Préparation des données pour la notification
+        $data = [
+            'user_name' => Auth::user()->name,
+            'action' => 'supprimé',
+            'item' => 'adhésion',
+            'name' => $membership->community->name, // Nom de la communauté associée
+        ];
+
+        event(new NewNotification($data)); // Événement de notification
+
         $membership->delete();
 
         return redirect()->route('membership.index')->with('success', 'Membership deleted successfully.');

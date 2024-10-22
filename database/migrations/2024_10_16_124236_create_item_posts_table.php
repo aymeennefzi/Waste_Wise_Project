@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('category');
             $table->string('description');
-            $table->string('adress');
+            $table->string('address');
             $table->integer('status');
             $table->string('image');
             $table->decimal('lat', 10, 7); // Latitude with precision
