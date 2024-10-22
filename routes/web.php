@@ -118,6 +118,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::get('/user-dashboard/recycling_centers', [RecyclingCenterController::class, 'index'])->name('recycling_centers.index');
 Route::get('/admin-dashboard/recycling_centers', [RecyclingCenterController::class, 'index'])->name('recycling_centers.admin');
+Route::get('/notifications', [NotificationController::class, 'getNotifications']);
+Route::get('/notifications/unread', [NotificationController::class, 'getNotifications'])->defaults('unread', true);
+Route::post('/mark-notifications-read', [NotificationController::class, 'markNotificationsAsRead']);
+
 
 //USER
 Route::middleware(['auth', 'user'])->group(function () {
