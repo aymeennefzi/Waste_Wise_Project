@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>WasteWise</title>
 		<!-- Favicon -->
-		<link rel="shortcut icon" href="assets/images/téléchargement.ico" />
+		<link rel="icon" href="{{ asset('Back_office/assets/images/loder.png')}}" type="image/x-icon">
 		<!-- Dark mode -->
 		<script>
 			const storedTheme = localStorage.getItem("theme");
@@ -163,7 +163,7 @@
 					<!-- Logo START -->
 					<a class="navbar-brand d-flex align-items-center" href="index.html">
 						<img src="{{ asset('LandingPage/assets/img/logo/loder1.png') }}" class="logo-img" alt="logo" width="40" height="auto">
-						<span class="ms-2" style="font-size: 24px; color: #206B75;">Waste wise</span> <!-- Ajoutez votre nom ici -->
+						<span class="ms-2" style="font-size: 24px; color: #fffff;">Waste wise</span> <!-- Ajoutez votre nom ici -->
 					</a>
 					<!-- Logo END -->
 
@@ -178,7 +178,7 @@
 
 					<!-- Profile START -->
 					<div class="dropdown ms-1 ms-lg-0">
-					<span class="h6 m-3" style="font-size: 18px; color: #404040; margin-left: 10px;">{{ Auth::user()->name }}</span>
+					<span class="h6 m-3" style="font-size: 18px; color: #fffff; margin-left: 10px;">{{ Auth::user()->name }}</span>
 
 					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false"><img class="avatar-img rounded-circle" src="{{ asset(Auth::user()->profile_photo_path) }}"alt="avatar"></a>
 						<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">

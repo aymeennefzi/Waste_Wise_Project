@@ -7,7 +7,7 @@
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="manifest" href="site.webmanifest">
-		<link rel="shortcut icon" type="image/x-icon" href="{{ asset('LandingPage/assets/img/favicon.ico')}}">
+		<link rel="icon" href="{{ asset('Back_office/assets/images/loder.png')}}" type="image/x-icon">
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Montserrat:wght@500&display=swap" rel="stylesheet">
 		<!-- CSS here -->
 		<link rel="stylesheet" href="{{ asset('LandingPage/assets/css/bootstrap.min.css')}}">
@@ -59,15 +59,6 @@
 												<li><a href="/">Home</a></li>
 												<li><a href="about.html">About</a></li>
 												<li><a href="{{ route('item-posts.index') }}">Posts</a></li>
-												<li><a href="schedule.html">Schedule</a></li>
-												<li>
-													<a href="blog.html">Blog</a>
-													<ul class="submenu">
-														<li><a href="blog.html">Blog</a></li>
-														<li><a href="blog_details.html">Blog Details</a></li>
-														<li><a href="elements.html">Element</a></li>
-													</ul>
-												</li>
 												<li><a href="contact.html">Contact</a></li>
 											</ul>
 										</nav>

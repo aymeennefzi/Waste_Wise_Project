@@ -10,20 +10,20 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-8 col-lg-8 col-md-9 col-sm-10">
-                            <div class="hero__caption">
-                                <span data-animation="fadeInLeft" data-delay=".1s">Committed to success</span>
-                                <h1 data-animation="fadeInLeft" data-delay=".5s">Digital Conference For Designers</h1>
-                                <!-- Hero-btn -->
-                                <div class="slider-btns">
-                                    <a data-animation="fadeInLeft" data-delay="1.0s" href="industries.html" class="btn hero-btn">Download</a>
-                                    <a data-animation="fadeInRight" data-delay="1.0s" class="popup-video video-btn"  href="https://www.youtube.com/watch?v=up68UAfH0d0"><i class="fas fa-play"></i></a>
-                                    <p class="video-cap d-none d-sm-blcok" data-animation="fadeInRight" data-delay="1.0s">
-                                        Story Vidoe
-                                        <br>
-                                         Watch
-                                    </p>
-                                </div>
+                        <div class="hero__caption">
+                            <span data-animation="fadeInLeft" data-delay=".1s">Committed to a sustainable future</span> <!-- Choisissez votre option ici -->
+                            <h1 data-animation="fadeInLeft" data-delay=".5s">Waste Wise</h1>
+                            <!-- Hero-btn -->
+                            <div class="slider-btns">
+                                <a data-animation="fadeInRight" data-delay="1.0s" class="popup-video video-btn" href="https://www.youtube.com/watch?v=6jQ7y_qQYUA"><i class="fas fa-play"></i></a>
+                                <p class="video-cap d-none d-sm-blcok" data-animation="fadeInRight" data-delay="1.0s">
+                                    Story Video
+                                    <br>
+                                    Watch
+                                </p>
                             </div>
+                        </div>
+
                         </div>
                     </div>
                 </div>
@@ -86,67 +86,59 @@
     <!-- slider Area End-->
     <!--? About Law Start-->
     <section class="about-low-area section-padding2">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-12">
-                    <div class="about-caption mb-50">
-                        <!-- Section Tittle -->
-                        <div class="section-tittle mb-35">
-                            <h2>The Biggest Digital Conference.</h2>
-                        </div>
-                        <p>
-                            There arge many variations ohf passages of sorem gpsum ilable, but the majority have suffered alteration in some form, by ected humour, or randomised words whi.rere arge many variations ohf passages of sorem gpsum ilable.
-                        </p>
-                        <p>
-                            There arge many variations ohf passages of sorem gpsum ilable, but the majority have suffered alteration in.
-                        </p>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="about-caption mb-50">
+                    <!-- Section Tittle -->
+                    <div class="section-tittle mb-35">
+                        <h2>Waste Wise: A Commitment to Sustainability</h2> <!-- Modifié -->
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-10">
-                            <div class="single-caption mb-20">
-                                <div class="caption-icon">
-                                    <span class="flaticon-communications-1"></span>
-                                </div>
-                                <div class="caption">
-                                    <h5>
-                                        Where
-                                    </h5>
-                                    <p>
-                                        New York, United States
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-10">
-                            <div class="single-caption mb-20">
-                                <div class="caption-icon">
-                                    <span class="flaticon-education"></span>
-                                </div>
-                                <div class="caption">
-                                    <h5>
-                                        When
-                                    </h5>
-                                    <p>
-                                        Jan. 21. 2021
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#" class="btn mt-50">Get Your Ticket</a>
+                    <p>
+                        Join us in our mission to promote recycling and sustainable practices. Together, we can make a difference for our planet.
+                    </p>
+                    <p>
+                        Learn about innovative solutions and community initiatives that drive positive environmental change.
+                    </p>
                 </div>
-                <div class="col-lg-6 col-md-12">
-                    <!-- about-img -->
-                    <div class="about-img ">
-                        <div class="about-font-img d-none d-lg-block">
-                        <img src="{{ asset('LandingPage/assets/img/recycling/3.png') }}" alt="" width="600" height="700">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-10">
+                        <div class="single-caption mb-20">
+                            <div class="caption-icon">
+                                <span class="flaticon-communications-1"></span>
+                            </div>
+                            <div class="caption">
+                                <h5>Where</h5>
+                                <p>Online Event</p> <!-- Modifié -->
+                            </div>
                         </div>
-                        
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-10">
+                        <div class="single-caption mb-20">
+                            <div class="caption-icon">
+                                <span class="flaticon-education"></span>
+                            </div>
+                            <div class="caption">
+                                <h5>When</h5>
+                                <p>Earth Day, April 22, 2024</p> <!-- Modifié -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn mt-50">Join the Movement</a> <!-- Modifié -->
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <!-- about-img -->
+                <div class="about-img ">
+                    <div class="about-font-img d-none d-lg-block">
+                        <img src="{{ asset('LandingPage/assets/img/recycling/3.png') }}" alt="Recycling Image" width="600" height="700">
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
     <!-- About Law End-->
 
     <!--? accordion -->
@@ -156,11 +148,12 @@
                 <div class="col-xl-5 col-lg-6 col-md-6">
                     <!-- Section Tittle -->
                     <div class="section-tittle text-center mb-80">
-                        <h2>Event Schedule</h2>
-                        <p>
-                            There arge many variations ohf passages of sorem gp ilable, but the majority have ssorem gp iluffe.
-                        </p>
-                    </div>
+    <h2>Recycling Event Schedule</h2> <!-- Titre modifié -->
+    <p>
+        Join us for a series of informative sessions focused on sustainable practices, recycling initiatives, and community involvement. Explore how you can contribute to a cleaner, greener planet.
+    </p>
+</div>
+
                 </div>
             </div>
             <div class="row ">
@@ -458,7 +451,7 @@
                     <div class="section-tittle section-tittle2 mb-50">
                         <h2>Our Top Genaral Sponsors.</h2>
                         <p>
-                            There arge many variations ohf passages of sorem gp ilable, but the majority have ssorem gp iluffe.
+                        We appreciate all organizations and individuals who support us, regardless of sponsorship status.
                         </p>
                     </div>
                 </div>
@@ -502,71 +495,7 @@
         </div>
     </section>
     <!-- Brand Area End-->
-    <!--? Blog Area Start -->
-    <section class="home-blog-area section-padding30">
-        <div class="container">
-            <!-- Section Tittle -->
-            <div class="row justify-content-center">
-                <div class="col-lg-5 col-md-8">
-                    <div class="section-tittle text-center mb-50">
-                        <h2>News From Blog</h2>
-                        <p>
-                            There arge many variations ohf passages of sorem gp ilable, but the majority have ssorem gp iluffe.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6">
-                    <div class="home-blog-single mb-30">
-                        <div class="blog-img-cap">
-                            <div class="blog-img">
-                                <img src="{{ asset('LandingPage/assets/img/gallery/home-blog1.png')}}" alt="">
-                                <!-- Blog date -->
-                                <div class="blog-date text-center">
-                                    <span>24</span>
-                                    <p>
-                                        Now
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="blog-cap">
-                                <p>
-                                    |   Physics
-                                </p>
-                                <h3><a href="blog_details.html">Footprints in Time is perfect House in Kurashiki</a></h3>
-                                <a href="blog_details.html" class="more-btn">Read more »</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6">
-                    <div class="home-blog-single mb-30">
-                        <div class="blog-img-cap">
-                            <div class="blog-img">
-                                <img src="{{ asset('LandingPage/assets/img/gallery/home-blog2.png')}}" alt="">
-                                <!-- Blog date -->
-                                <div class="blog-date text-center">
-                                    <span>24</span>
-                                    <p>
-                                        Now
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="blog-cap">
-                                <p>
-                                    |   Physics
-                                </p>
-                                <h3><a href="blog_details.html">Footprints in Time is perfect House in Kurashiki</a></h3>
-                                <a href="blog_details.html" class="more-btn">Read more »</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Blog Area End -->
+  
 
 
     
