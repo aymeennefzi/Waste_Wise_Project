@@ -12,7 +12,8 @@ use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\TaskCController;
 
-
+use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\GoogleController;
 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MaterialController;
@@ -166,5 +167,6 @@ Route::middleware(['auth', 'user'])->group(function () {
         return view('layouts.user');
     })->name('layouts.user');
 });
+
 
 require __DIR__.'/auth.php';
