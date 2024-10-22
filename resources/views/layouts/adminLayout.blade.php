@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 		<meta name="description" content=""/>
 		<meta name="author" content=""/>
-		<title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
+		<title>Waste Wise</title>
 		<!-- loader-->
 		<link href="{{ asset('Back_office/assets/css/pace.min.css')}}" rel="stylesheet"/>
 		<!-- Add this in your <head> section for Bootstrap CSS -->
@@ -20,7 +20,7 @@
 
 		<script src="{{ asset('Back_office/assets/js/pace.min.js')}}"></script>
 		<!--favicon-->
-		<link rel="icon" href="{{ asset('Back_office/assets/images/favicon.ico')}}" type="image/x-icon">
+		<link rel="icon" href="{{ asset('Back_office/assets/images/loder.png')}}" type="image/x-icon">
 		<!-- Vector CSS -->
 		<link href="{{ asset('Back_office/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet"/>
 		<!-- simplebar CSS-->

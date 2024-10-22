@@ -5,9 +5,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>WasteWise</title>
 		<!-- Favicon -->
+<<<<<<< HEAD
 		<link rel="shortcut icon" href="assets/images/téléchargement.ico" />
 		{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/fontawesome.min.css> --}}
 
+=======
+		<link rel="icon" href="{{ asset('Back_office/assets/images/loder.png')}}" type="image/x-icon">
+>>>>>>> 87dc30a37e1b1dc11d64a82be1577b94a8c5de97
 		<!-- Dark mode -->
 		<script>
 			const storedTheme = localStorage.getItem("theme");
@@ -198,6 +202,10 @@
 					<!-- Logo START -->
 					<a class="navbar-brand" href="index.html">
 						<img src="{{ asset('LandingPage/assets/img/logo/loder1.png') }}" class="logo-img" alt="logo" width="40" height="auto">
+<<<<<<< HEAD
+=======
+						<span class="ms-2" style="font-size: 24px; color: #fffff;">Waste wise</span> <!-- Ajoutez votre nom ici -->
+>>>>>>> 87dc30a37e1b1dc11d64a82be1577b94a8c5de97
 					</a>
 					<!-- Logo END -->
 					
@@ -209,6 +217,7 @@
 							<span></span>
 						</span>
 					</button>
+<<<<<<< HEAD
 			
 					<!-- Navbar collapse START -->
 					<div class="collapse navbar-collapse" id="navbarCollapse">
@@ -229,6 +238,21 @@
 											<a class="h6" href="#">{{ Auth::user()->name }}</a>
 											<p class="small m-0">{{ Auth::user()->email }}</p>
 										</div>
+=======
+
+					<!-- Profile START -->
+					<div class="dropdown ms-1 ms-lg-0">
+					<span class="h6 m-3" style="font-size: 18px; color: #fffff; margin-left: 10px;">{{ Auth::user()->name }}</span>
+
+					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false"><img class="avatar-img rounded-circle" src="{{ asset(Auth::user()->profile_photo_path) }}"alt="avatar"></a>
+						<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+							<!-- Profile info -->
+							<li class="px-3 mb-3">
+								<div class="d-flex align-items-center">
+									<!-- Avatar -->
+									<div class="avatar me-3">
+										<img class="avatar-img rounded-circle shadow" src="{{ asset(Auth::user()->profile_photo_path) }}" alt="avatar">
+>>>>>>> 87dc30a37e1b1dc11d64a82be1577b94a8c5de97
 									</div>
 								</li>
 								<li><hr class="dropdown-divider"></li>

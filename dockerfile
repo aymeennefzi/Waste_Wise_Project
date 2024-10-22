@@ -46,5 +46,5 @@ RUN composer clear-cache && \
 # Command to run your application
 CMD php artisan serve --host=0.0.0.0 --port=8000
 
-# Expose the port for the application
+# Expose the port for the applicationn
 EXPOSE 8000

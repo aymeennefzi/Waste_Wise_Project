@@ -12,8 +12,6 @@ use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\TaskCController;
 
-
-
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\RecyclingCenterController;
@@ -49,11 +47,6 @@ Route::get('/dashboard', function () {
     return redirect()->route('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/notifications', [NotificationController::class, 'getNotifications']);
-Route::get('/notifications/unread', [NotificationController::class, 'getNotifications'])->defaults('unread', true);
-Route::post('/mark-notifications-read', [NotificationController::class, 'markNotificationsAsRead']);
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/user-dashboard', function () { return view('layouts.user');})->name('layouts.user');
 Route::get('/admin-dashboard', function () {return view('layouts.adminLayout');})->name('layouts.adminLayout');
 
@@ -65,6 +58,7 @@ Route::get('auth/google/callback',[GoogleController::class,'googleredirect']);
 
 //ADMIN
 Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/admin/itemposts', [App\Http\Controllers\AdminPostController::class, 'index'])->name('admin.itemposts.index');
     Route::delete('/admin/itemposts/{id}', [App\Http\Controllers\AdminPostController::class, 'destroy'])->name('admin.itemposts.destroy');
     Route::get('/admin/itemposts/{id}/edit', [App\Http\Controllers\AdminPostController::class, 'edit'])->name('admin.itemposts.edit');
@@ -173,5 +167,6 @@ Route::middleware(['auth', 'user'])->group(function () {
         return view('layouts.user');
     })->name('layouts.user');
 });
+
 
 require __DIR__.'/auth.php';
